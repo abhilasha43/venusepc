@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Projects</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    /* --- General Styles --- */
+    body, html {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+        overflow-x: hidden; /* Prevents horizontal scrollbars */
+    }
+    
+    body.nav-open {
+        overflow: hidden; /* Prevent background scroll when nav is open */
+    }
+
+    *, *:before, *:after {
+        box-sizing: border-box;
+    }
+
+    /* --- HEADER & NAVIGATION --- */
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 25px;
+        background-color: #ffffff;
+        backdrop-filter: blur(5px);
+        position: fixed;
+        width: 100%;
+        height: 90px;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .logo img {
+        height: 185px;
+        width: auto;
+        margin-top: 0;
+    }
+
+    .main-nav {
+        flex-grow: 1;
+    }
+
+    .main-nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .main-nav ul li {
+        position: relative;
+        margin: 0 10px;
+    }
+
+    .main-nav ul li a {
+        display: block;
+        padding: 15px 20px;
+        color: #000;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1rem;
+        font-family: inherit;
+        text-transform: uppercase;
+        transition: color 0.3s;
+    }
+
+    .main-nav ul li a:hover {
+        color: #007BFF;
+    }
+    
+    .menu-toggle {
+        display: none; 
+        font-size: 24px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #333;
+        z-index: 1001;
+    }
+
+    .menu-toggle .bar {
+        display: block;
+        width: 25px;
+        height: 3px;
+        margin: 5px auto;
+        background-color: #333;
+        transition: all 0.3s ease-in-out;
+    }
+    
+   /* Services Dropdown Styles */
+    .dropdown-toggle::after {
+      content: '\f078';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      margin-left: 8px;
+      font-size: 0.8em;
+      transition: transform 0.3s ease;
+    }
+
+    .mega-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: max-content;
+      background-color: #fff;
+      padding: 25px 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border-radius: 8px;
+      border-top: 3px solid #007BFF;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      z-index: 1001;
+    }
+
+    @media (min-width: 993px) {
+      .has-dropdown:hover .mega-menu {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    .mega-menu.show {
+      display: block; 
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mega-menu-content {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .mega-menu-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mega-menu a {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px; 
+      font-weight: normal;
+      text-transform: none;
+      letter-spacing: normal;
+      border-radius: 5px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      white-space: nowrap;
+      color: #333;
+      text-decoration: none;
+    }
+
+    .mega-menu a:hover {
+      background-color: #f0f8ff;
+      color: #007BFF;
+    }
+
+    .mega-menu a i {
+      color: #007BFF;
+      font-size: 1.1em;
+      margin-right: 12px;
+      width: 20px;
+      text-align: center;
+    }
+  
+    /*  MEP Sub-menu specific styles */
+    .mep-toggle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    .sub-menu-indicator {
+        font-size: 0.8em;
+        margin-left: 10px;
+        transition: transform 0.3s ease;
+    }
+
+    .sub-menu {
+        display: none;
+        padding-left: 20px; 
+        background-color: #f9f9f9;
+        margin-top: 5px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    
+    .sub-menu a {
+        padding: 10px 15px;
+        font-size: 95%;
+    }
+    
+    @media (min-width: 993px) {
+        .has-sub-dropdown:hover .sub-menu {
+            display: block;
+        }
+    }
+
+    /*  HERO SECTION  */
+    .mla-intro {
+      position: relative;
+      background: linear-gradient(45deg, rgba(85%, 57%, 0%), transparent),
+                  url('images/pro.jpg') no-repeat center center;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 90px;
+    }
+
+    .intro-overlay { 
+      color: #0c042a;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .intro-overlay h2 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .intro-overlay p {
+      font-size: 1.2rem;
+    }
+
+    /*  CONTENT SECTIONS  */
+    .section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 30px;
+      color: #030d35;
+    }
+    
+    /*  FLIP CARD GRID  */
+    .flip-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); 
+      gap: 35px;
+      width: 90%;
+      max-width: 1200px; 
+      margin: 40px auto;
+    }
+
+    .flip-box {
+      width: 100%;
+      height: 400px;
+      perspective: 1000px;
+    }
+
+    .flip-box-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.6s;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      border-radius: 0;
+    }
+
+    .flip-box:hover .flip-box-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-box-front,
+    .flip-box-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 20px;
+      border-radius: 0;
+    }
+
+    .flip-box-front {
+      background-color: #1F3149;
+      color: white;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+
+    .flip-box-front::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+        border-radius: 0;
+        z-index: 1;
+    }
+
+    .flip-box-front h3 {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        font-size: 1.5rem;
+        margin-top: 10px;
+    }
+
+    .flip-box-back {
+      background-color: #f4f4f4; 
+      transform: rotateY(180deg);
+       margin-top: -345px;
+    }
+    
+    .project-details {
+      text-align: left;
+      width: 90%;
+    }
+
+    .project-details p {
+      margin: 0 0 12px 0;
+      padding: 0 0 12px 0;
+      border-bottom: 1px solid #ddd; 
+      line-height: 1.6;
+      font-size: 0.9rem;
+      color: #000000; 
+    }
+
+    .project-details p:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .project-details strong {
+      color: #007BFF;
+      margin-right: 8px;
+    }
+
+    /*  PROJECT LIST SECTION  */
+    .project-list-section {
+        background-color: #ffffff;
+    }
+
+    .project-list-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: left;
+    }
+    
+    .project-list-column {
+        flex: 1 1 300px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .project-list-column li {
+        padding: 8px 0 8px 35px;
+        font-size: 1rem;
+        color: #000000;
+        border-bottom: 1px dotted #ccc;
+        position: relative;
+        display: flex; 
+        align-items: center;
+        min-height: 40px; 
+    }
+
+    .project-list-column li::before {
+        content: '\f058';
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #DA9100;
+        font-size: 1.1em;
+    }
+    
+    /*  FOOTER  */
+    footer.custom-footer {
+        background-color: #e0e0e0;
+        color: #333;
+        padding: 50px 20px 20px;
+        margin-top: 0; 
+    }
+    
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .footer-section {
+      display: flex;
+      flex-wrap: wrap; 
+      justify-content: space-between;
+      gap: 30px;
+      text-align: left;
+    }
+
+    .company-content,
+    .important-links,
+    .office-section {
+      flex: 1 1 300px;
+    }
+
+    .company-content img {
+        display: block;
+        max-width: 150px;
+        height: auto;
+        margin-top: -40px;
+        margin-left: 5px;
+    }
+
+    .company-description {
+      font-size: 1rem;   
+      margin-bottom: 20px;
+      line-height: 1.5;
+      margin-top: -45px;
+      margin-left: -35px;
+      color: #080108;
+      text-align: center;
+    }
+
+    .know-more-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      margin-left: 19px;
+      background-color: #DA9100;
+      color: #ffffff;
+      border: 2px solid #f9f9f9;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+   
+    .know-more-btn:hover {
+        background-color: #fff;
+        color: #055aaf;
+    }
+
+    .important-links h3, .office-section h3 {
+      font-size: 1.4rem;
+      color: #000000;
+      margin-bottom: 15px;
+    }
+
+    .important-links ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .important-links ul li {
+      margin-bottom: 10px;
+    }
+
+    .important-links ul li a {
+      text-decoration: none;
+      color: #080108;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    .important-links ul li a:hover {
+      color: orangered;
+      text-decoration: underline;
+    }
+
+    .office-details p {
+      margin: 8px 0;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #080108;
+    }
+
+    .office-details strong { color: #000000; }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid #444; 
+      margin-top: 30px;
+      font-size: 0.9rem;
+      color: #080108;
+    }
+
+    /* RESPONSIVE STYLES  */
+    @media (max-width: 992px) {
+        .menu-toggle {
+            display: block;
+            z-index: 1001;
+        }
+
+        .menu-toggle.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
+        .menu-toggle.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+        .nav-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5); z-index: 998;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        body.nav-open .nav-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .main-nav {
+            position: fixed; top: 0; right: -280px; width: 260px;
+            height: 100vh; background-color: #ffffff;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            transition: right 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding-top: 90px; z-index: 999; overflow-y: auto;
+        }
+
+        .main-nav.nav-active { right: 0; }
+        .main-nav ul { flex-direction: column; align-items: flex-start; width: 100%; }
+        .main-nav ul li { width: 100%; margin: 0; text-align: left; border-bottom: 1px solid #f0f0f0; }
+        .main-nav ul li a { padding: 15px 25px; }
+        .main-nav ul li:last-child { border-bottom: none; }
+
+        .has-dropdown.open > .dropdown-toggle::after { transform: rotate(180deg); }
+        .mega-menu {
+            position: static; display: none; width: 100%; box-shadow: none;
+            border-top: none; border-radius: 0; background-color: #f9f9f9;
+            padding: 0; transform: none; opacity: 1; visibility: visible;
+            transition: none; margin-left: 0;
+        }
+        .main-nav ul li .mega-menu.show { display: block; }
+        .mega-menu-content { flex-direction: column; gap: 0; }
+        .mega-menu a { padding: 15px 25px; border-bottom: 1px solid #e9e9e9; }
+        .mega-menu-column .has-sub-dropdown a:last-of-type { border-bottom: none; }
+
+        .sub-menu {
+            display: none; padding-left: 0; margin-top: 0; background-color: #eaf5ff;
+        }
+        .sub-menu.show { display: block; }
+        .sub-menu a { padding-left: 45px; border-bottom: 1px solid #dcebf7; }
+        .has-sub-dropdown.open .sub-menu-indicator { transform: rotate(180deg); }
+        
+        .flip-container { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .section h2 { font-size: 2rem; }
+        .intro-overlay h2 { font-size: 2.2rem; }
+    }
+
+    @media (max-width: 768px) {
+        .header-content { padding: 5px 15px; height: 80px; }
+        .logo img { height: 150px; margin-left: -10px; }
+        .main-nav { padding-top: 80px; }
+        .mla-intro { height: 300px; margin-top: 80px; }
+        .intro-overlay h2 { font-size: 1.8rem; }
+        .intro-overlay p { font-size: 1rem; }
+        .flip-container { grid-template-columns: 1fr; width: 85%; max-width: 400px; }
+        .flip-box { height: 350px; }
+        .section { padding: 40px 15px; }
+        .section h2 { font-size: 1.8rem; }
+        .project-list-container { flex-direction: column; align-items: center; }
+        .project-list-column { width: 100%; max-width: 400px; }
+        .footer-section { flex-direction: column; text-align: center; align-items: center; }
+        .company-content, .important-links, .office-section { flex-basis: auto; width: 100%; max-width: 350px; text-align: center; }
+        .company-description, .know-more-btn { margin-left: 0; }
+        .company-content img { margin-left: auto; margin-right: auto; }
+        .important-links ul, .office-details { display: inline-block; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+    <header class="header-content">
+      <div class="logo">
+        <img src="images/venus.png" alt="Venus EPC Logo">
+      </div>
+        
+      <nav class="main-nav" id="main-nav">
+          <ul>
+              <li><a href="home.html">Home</a></li>
+              <li><a href="about.html">About Us</a></li>
+              <li class="has-dropdown">
+                  <a href="#" class="dropdown-toggle" id="services-toggle">Services</a>
+                  <div class="mega-menu" id="services-dropdown">
+                      <div class="mega-menu-content">
+                           <!-- Column 1 -->
+                          <div class="mega-menu-column">
+                              <!-- === MEP Services with Sub-dropdown === -->
+                              <div class="has-sub-dropdown">
+                                  <!-- === FIX: Added class="mep-toggle" and href="#" to make it a clickable toggle for mobile === -->
+                                  <a href="#" class="mep-toggle">
+                                      <i class="fas fa-wrench"></i>
+                                      <span>MEP SERVICES</span>
+                                      <i class="fas fa-chevron-down sub-menu-indicator"></i>
+                                  </a>
+                                   <div class="sub-menu">
+                                     <a href="mechanicalservices.html"><i class="fas fa-cogs"></i><span>Mechanical</span></a>
+                                     <a href="electricalservices.html"><i class="fas fa-bolt"></i><span>Electrical</span></a>
+                                     <a href="plumbingservices.html"><i class="fas fa-faucet"></i><span>Plumbing</span></a>
+                                </div>
+                              </div>
+                              <!-- === End of changed section === -->
+                              <a href="interiorservices.html"><i class="fas fa-chair"></i><span>Interior Services</span></a>
+                            </div>
+                          <!-- Column 2 -->
+                          <div class="mega-menu-column">
+                              <a href="solarphotovoltaicservices.html"><i class="fas fa-solar-panel"></i><span>Solar PV Services</span></a>
+                              <a href="constructionservices.html"><i class="fas fa-hard-hat"></i><span>Civil EPC Work Services</span></a>
+                          </div>
+                      </div>
+                  </div>
+              </li>
+              <li><a href="projects.html">Projects</a></li>
+              <li><a href="careers.html">Careers</a></li>
+              <li><a href="contact.html">Contact</a></li>
+          </ul>
+      </nav>
+      <button class="menu-toggle" id="menu-toggle">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+      </button>
+    </header>
+
+    <div class="nav-overlay" id="nav-overlay"></div>
+
+    <main>
+      <section class="mla-intro">
+        <div class="intro-overlay">
+          <h2>Projects</h2>
+        </div>
+      </section>
+    
+      <section class="section what-we-do">
+        <h2>Completed Projects</h2>
+        <p style="max-width: 800px; margin: 0 auto; font-size: 1.1rem; color: #000000; text-align: center;">
+          VENUS EPC Solutions takes pride in delivering world-class Engineering, Procurement, and Construction (EPC) solutions across a diverse range of industries. Our success is built on a foundation of technical excellence and a true partnership approach. Our team of seasoned professionals collaborates closely with each client, understanding their unique vision to deliver tailored solutions that meet and exceed expectations. This commitment to quality and client satisfaction has enabled us to successfully deliver over 70 projects.
+        </p>
+      </section>
+    
+    
+      <section class="projects">
+        <div class="flip-container">
+          <!-- Project Cards... (All 15 cards as before) -->
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front"style="background-image: url('images/sainikschool.webp');">
+                <h3>Sainik School Chandrapur <br>Maharashtra</h3>
+              </div>
+              <div class="flip-box-back">
+                <div class="project-details">
+                    <p><strong>Name:</strong> Sainik School Chandrapur, Maharashtra</p>
+                    <p><strong>Scope of work:</strong> Electrical ( HT & LT ), ELV, HVAC, Fire Fighting, Lifts, Solar, STP, WTP, Auditorium, High Mast flag</p>
+                    <p><strong>Project value:</strong> ₹62 Cr</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front" style="background-image: url('images/highcourt.webp');">
+                <h3>The Bombay High Court <br>Mumbai</h3>
+              </div>
+              <div class="flip-box-back">
+                <div class="project-details">
+                    <p><strong>Name:</strong> The Bombay High Court </p>
+                    <p><strong>Scope of work:</strong> HVAC</p>
+                    <p><strong>Project value:</strong> ₹15 Cr</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front" style="background-image: url('images/Mantralaya.webp');">
+                <h3>Mantralaya Main Building <br>Mumbai</h3>
+              </div>
+              <div class="flip-box-back">
+                <div class="project-details">
+                    <p><strong>Name:</strong> Mantralaya Main Building, Mumbai</p>
+                    <p><strong>Scope of work:</strong> ELV System, Audio Video Systems</p>
+                    <p><strong>Project value:</strong> ₹14 Cr</p>
+                </div> 
+              </div>
+            </div>
+          </div>
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front" style="background-image: url('images/maharaj.png');">
+                <h3>SINDHUDURG FORT<br>MALVAN</h3>
+              </div>
+              <div class="flip-box-back">
+                 <div class="project-details">
+                    <p><strong>Name:</strong> Sindhudurg Fort,Malvan</p>
+                    <p><strong>Scope of work:</strong>Facade Lighting</p>
+                    <p><strong>Project value:</strong> ₹3 Cr</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front" style="background-image: url('images/vitthal.jpg');">
+                <h3>VITTHAL MANDIR <br>PANDHARPUR</h3>
+              </div>
+              <div class="flip-box-back">
+                <div class="project-details">
+                    <p><strong>Name:</strong>Vitthal Mandir, Pandharpur</p>
+                    <p><strong>Scope of work:</strong>HAVC , Fire Fighting System,Fire Alaram,CCTV System,LAN Networking</p>
+                    <p><strong>Project value:</strong> ₹13 Cr</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front" style="background-image: url('images/yss.jpg');">
+                <h3>ART BUILDING<br>MEDA</h3>
+              </div>
+              <div class="flip-box-back">
+                 <div class="project-details">
+                    <p><strong>Name:</strong>Art Building,Meda</p>
+                    <p><strong>Scope of work:</strong>Fire Alaram System, CCTV System,HAVC System,AV System</p>
+                    <p><strong>Project value:</strong> ₹6 cr</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front" style="background-image: url('images/civil.jpg');">
+                <h3>CIVIL HOSPITAL<br>RATNAGIRI</h3>
+              </div>
+              <div class="flip-box-back">
+                <div class="project-details">
+                    <p><strong>Name:</strong>Civil Hospital,Ratnagiri</p>
+                    <p><strong>Scope of work:</strong> Fire Alaram System,firefighting System</p>
+                    <p><strong>Project value:</strong> ₹6 Cr</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front" style="background-image: url('images/shaha.webp');">
+                <h3>GOVERNMENT HOSPITAL <br>SHAHAPUR</h3>
+              </div>
+              <div class="flip-box-back">
+                <div class="project-details">
+                    <p><strong>Name:</strong>Government Hospital,Shahapur</p>
+                    <p><strong>Scope of work:</strong>Fire Alaram System,Firefighting System</p>
+                    <p><strong>Project value:</strong> ₹4 Cr</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front" style="background-image: url('images/gokuldas.avif');">
+                <h3>GOKULDAS HOSPITAL<br>MUMBAI</h3>
+              </div>
+              <div class="flip-box-back">
+                 <div class="project-details">
+                    <p><strong>Name:</strong>Gokuldas Hospital,Mumbai</p>
+                    <p><strong>Scope of work:</strong> Firefighting ,Fire Alaram System,Sprinkler</p>
+                    <p><strong>Project value:</strong> ₹7 Cr</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front" style="background-image: url('images/adm.jpeg');">
+                <h3>ADMIN BUILDING<br>PANVEL</h3>
+              </div>
+              <div class="flip-box-back">
+                 <div class="project-details">
+                    <p><strong>Name:</strong> Admin Building,Panvel</p>
+                    <p><strong>Scope of work:</strong> Firefighting System,HAVC System,Solar Energy System,AV Conference System</p>
+                    <p><strong>Project value:</strong> ₹4 Cr</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front" style="background-image: url('images/sasson.jpg');">
+                <h3>SASSOON HOSPITAL<br>PUNE</h3>
+              </div>
+              <div class="flip-box-back">
+                 <div class="project-details">
+                    <p><strong>Name:</strong> Sassoon Hospital,Pune</p>
+                    <p><strong>Scope of work:</strong> Firefighting System, Fire Alaram System</p>
+                    <p><strong>Project value:</strong> ₹3 Cr</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front" style="background-image: url('images/sangli.jpg');">
+                <h3>GOVERNMENT HOSPITAL<br>SANGLI</h3>
+              </div>
+              <div class="flip-box-back">
+                 <div class="project-details">
+                    <p><strong>Name:</strong>Government Hospital,Sangli</p>
+                    <p><strong>Scope of work:</strong> Firefighting System, Fire Alaram System,Sprinkler System</p>
+                    <p><strong>Project value:</strong> ₹2 Cr</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front" style="background-image: url('images/chaya.webp');">
+                <h3>CHAYA HOSPITAL<br>AMBERNATH</h3>
+              </div>
+              <div class="flip-box-back">
+                 <div class="project-details">
+                    <p><strong>Name:</strong> Chaya Hospital, Ambernath</p>
+                    <p><strong>Scope of work:</strong>Firefighting System, Fire Alaram System</p>
+                    <p><strong>Project value:</strong> ₹1 cr</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front" style="background-image: url('images/jj.avif');">
+                <h3>JJ HOSPITAL<br>MUMBAI</h3>
+              </div>
+              <div class="flip-box-back">
+                <div class="project-details">
+                    <p><strong>Name:</strong> JJ Hospital Mumbai</p>
+                    <p><strong>Scope of work:</strong>Firefighting, Electrical Safety Work</p>
+                    <p><strong>Project value:</strong> ₹39 Cr</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front" style="background-image: url('images/ravi.jpg');">
+                <h3>RAVINDRA NATYA MANDIR<br>MUMBAI</h3>
+              </div>
+              <div class="flip-box-back">
+                <div class="project-details">
+                    <p><strong>Name:</strong> Ravindra Natya Mandir, Mumbai</p>
+                    <p><strong>Scope of work:</strong> HAVC, DG Set Work ,ELV System ,Audio Video system</p>
+                    <p><strong>Project value:</strong> ₹11 Cr</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section project-list-section">
+        <h2>Other Projects</h2>
+        <div class="project-list-container">
+          <ul class="project-list-column">
+            <li>ST Bus DEPOT,Mumbai</li>
+            <li>The Bombay High Court,Mumbai</li>
+            <li>Killa Court, Mumbai</li>
+            <li>Sub District Hospital,Karmala</li>
+            <li>Sub District Hospital, Pandharpur</li>
+            <li>Rural Hospital, Kurduwadi</li>
+            <li>Rural Hospital, Meda</li>
+            <li>Rural Hospital, Akkalkot</li>
+            <li>Rural Hospital, Vadala</li>
+            <li>Admin Building, Panvel</li>
+            <li>Rural Hospital,Khalapur</li>
+            <li>Girls Hostel & Skill Center Building, Batu</li>
+            <li>Raigad Hospital, Ratnagiri</li>
+            <li>Rajkot Fort,Malvan</li>  
+            <li>Sub District Hospital, Dapoli</li>        
+          </ul>
+          <ul class="project-list-column">
+            <li>Trauma Care Hospital, Akkalkot</li>
+            <li>Rural Hospital, Jehur</li>
+            <li>Rural Hospital, Chakur</li>
+            <li>Rural Hospital, Babhalgaon</li>
+            <li>Rural Hospital, Mandrup</li>
+            <li>George Hospital, Mumbai</li>
+            <li>District Court Building ,Pune</li>
+            <li>Alibag Warehouse,Alibag</li>
+            <li>Sub District Hospital, Barshi</li>
+            <li>IPD And OPD Building at GMC, Miraj</li> 
+            <li>Sub District Hospital,Lonavala</li> 
+            <li>Bhugao Court Building, Paud</li> 
+            <li>General Hospital, Rest House Building,Pandharpur</li>
+            <li>Yashodhan Building, Mumbai</li>
+            <li>Tadoba Bhavan For, Chandrapur</li>
+          </ul>
+        </div>
+      </section>
+  </main>
+
+<footer class="custom-footer">
+    <div class="footer-container">
+      <div class="footer-section">
+         <div class="company-content">
+              <img src="images/venus.png" alt="Venus EPC Logo">
+            <p class="company-description">
+              "Driven by Speed, Defined by Commitment."
+            </p>
+            <a href="home.html" class="know-more-btn">Know More</a>
+          </div>
+        <div class="important-links">
+          <h3>Important Links</h3>
+          <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="/careers">Careers</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+  
+        <div class="office-section">
+          <h3>Office Details</h3>
+          <div class="office-details">
+            <p><strong>Address:</strong>OFFICE NO. 104, SR. NO. 235/1,NYATI EQUATORIAL - 2,DAFFODIL D4, BAVDHANBUDRUK PUNE 411021 .</p>
+            <p><strong>Phone:</strong> 02069015368</p>
+            <p><strong>Email:</strong> info@venusepc.com</p>
+          </div>
+        </div>
+      </div>
+  
+      <div class="footer-bottom">
+        <p>© 2025 VENUS EPC Solutions Pvt Ltd. All Rights Reserved.</p>
+      </div>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuToggle = document.getElementById('menu-toggle');
+        const mainNav = document.getElementById('main-nav');
+        const navOverlay = document.getElementById('nav-overlay');
+        const body = document.body;
+
+        // --- Main Menu Toggle ---
+        function closeMenu() {
+            mainNav.classList.remove('nav-active');
+            menuToggle.classList.remove('active');
+            body.classList.remove('nav-open');
+        }
+
+        menuToggle.addEventListener('click', () => {
+            body.classList.toggle('nav-open');
+            mainNav.classList.toggle('nav-active');
+            menuToggle.classList.toggle('active');
+        });
+
+        navOverlay.addEventListener('click', closeMenu);
+
+        // --- Services Mega Menu Toggle ---
+        const servicesToggle = document.getElementById('services-toggle');
+        const servicesDropdown = document.getElementById('services-dropdown');
+        if (servicesToggle && servicesDropdown) {
+            servicesToggle.addEventListener('click', (e) => {
+                if (window.innerWidth <= 992) {
+                    e.preventDefault();
+                    servicesDropdown.classList.toggle('show');
+                    servicesToggle.parentElement.classList.toggle('open');
+                }
+            });
+        }
+        
+        // --- MEP Services Sub-Menu Toggle (Corrected) ---
+        const mepItem = document.querySelector('.has-sub-dropdown');
+        if (mepItem) {
+            const mepToggleLink = mepItem.querySelector('.mep-toggle');
+            const mepSubMenu = mepItem.querySelector('.sub-menu');
+
+            if(mepToggleLink && mepSubMenu) {
+                mepToggleLink.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 992) {
+                        e.preventDefault(); 
+                        mepSubMenu.classList.toggle('show');
+                        mepItem.classList.toggle('open');
+                    }
+                });
+            }
+        }
+
+        // --- Close menu on link click (for single page apps or smooth scroll) ---
+        mainNav.addEventListener('click', (e) => {
+            if (window.innerWidth <= 992 && e.target.tagName === 'A') {
+                // Check if the clicked link is a dropdown toggle
+                const isDropdownToggle = e.target.classList.contains('dropdown-toggle') || e.target.closest('.mep-toggle');
+
+                // If it's NOT a dropdown toggle, close the menu
+                if (!isDropdownToggle) {
+                    closeMenu();
+                }
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

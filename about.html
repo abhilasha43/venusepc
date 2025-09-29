@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us - Venus EPC</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+  /* --- General Styles --- */
+    body, html {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+        overflow-x: hidden;
+    }
+    *, *:before, *:after {
+        box-sizing: border-box;
+    }
+    body.nav-open {
+        overflow: hidden;
+    }
+
+    /* --- Header & Navigation --- */
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 90px;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(8px);
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    .logo img {
+        height: 185px;
+        width: auto;
+    }
+    .main-nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+    }
+   .main-nav ul li {
+        position: relative;
+        margin: 0 12px;
+    }
+   .main-nav ul li a {
+        display: block;
+        padding: 15px 18px;
+        color: #000;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 100%;
+        font-family: inherit;
+        text-transform: uppercase;
+        transition: background-color 0.3s;
+    }
+    .main-nav ul li a:hover {
+        color: #007BFF;
+    }
+    .dropdown-toggle::after {
+        content: '\f078';
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        margin-left: 8px;
+        font-size: 0.8em;
+    }
+
+    /* === MEGA MENU STYLES === */
+    .mega-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 650px;
+      background-color: #fff;
+      padding: 30px 40px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      z-index: 1001;
+      border-radius: 8px;
+      border-top: 3px solid #007BFF;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+      transform-origin: top center;
+    }
+    @media (min-width: 993px) {
+        .has-dropdown:hover .mega-menu {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(5px);
+        }
+    }
+   .mega-menu-content {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .mega-menu-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .mega-menu a {
+      display: flex;
+      align-items: center;
+      padding: 14px 18px; 
+      font-weight: normal;
+      text-transform: none;
+      letter-spacing: normal;
+      border-radius: 6px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      color: #333;
+      text-decoration: none;
+      background-color: transparent;
+      line-height: 1.4;
+      white-space: nowrap; 
+    }
+    .mega-menu a:hover {
+      background-color: #f0f8ff;
+      color: #007BFF;
+    }
+    .mega-menu a i {
+      color: #007BFF;
+      font-size: 1.2em;
+      margin-right: 15px;
+      width: 22px;
+      text-align: center;
+    }
+
+    /* === NEW: MEP SUB-MENU STYLES === */
+    .mep-submenu {
+        display: none; /* Hidden by default */
+        padding-left: 20px;
+        background-color: #fafafa;
+        margin: 5px 0 10px 0;
+        border-radius: 4px;
+    }
+    .mep-submenu a {
+        font-size: 0.95em;
+        color: #000 !important; /* Black text */
+        padding: 12px 15px;
+    }
+    .mep-submenu a i {
+        color: #007BFF !important; /* Blue icon */
+        font-size: 1em;
+    }
+    .mep-submenu a:hover {
+        color: #007BFF !important; /* Blue text on hover */
+    }
+    
+    /* Desktop Hover Interaction */
+    @media (min-width: 993px) {
+        .mep-dropdown-container:hover .mep-submenu {
+            display: block; /* Show on hover on desktop */
+        }
+    }
+    
+    /* === MOBILE NAV TOGGLE & OVERLAY === */
+    .mobile-nav-toggle {
+        display: none;
+        font-size: 24px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #000;
+        z-index: 1002;
+        padding: 10px;
+        position: relative;
+    }
+    .mobile-nav-toggle .bar {
+        display: block;
+        width: 25px;
+        height: 3px;
+        margin: 5px auto;
+        transition: all 0.3s ease-in-out;
+        background-color: #000;
+    }
+    .mobile-nav-toggle.is-active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .mobile-nav-toggle.is-active .bar:nth-child(2) { opacity: 0; }
+    .mobile-nav-toggle.is-active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    .nav-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background-color: rgba(0,0,0,0.5); z-index: 998;
+        opacity: 0; visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .nav-overlay.active { opacity: 1; visibility: visible; }
+
+    /* --- Hero & Content Sections --- */
+    .mla-intro {
+      position: relative;
+      background: linear-gradient(45deg, rgba(85%, 57%, 0%), transparent),
+                        url('images/about.jpg') no-repeat center center;
+      background-size: cover;
+      background-position: center;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 90px;
+      z-index: 1;
+    }
+    .intro-overlay h2 { font-size: 3rem; color: #0c042a; }
+    .company-section { padding: 80px 15%; text-align: center; background-color: #f9f9f9; }
+    .company-title { font-size: 2.2rem; font-weight: bold; margin-bottom: 20px; color: #1f2c47; }
+    .inline-description { font-size: 1.1rem; line-height: 1.7; text-align: justify; max-width: 900px; margin: 0 auto; color: #555; }
+    .vms-section { padding: 80px 10%; }
+    .vms-item { display: flex; align-items: center; gap: 50px; margin-bottom: 80px; }
+    .vms-item:last-child { margin-bottom: 0; }
+    .vms-item.reverse { flex-direction: row-reverse; }
+    .vms-image, .vms-content { flex: 1; }
+    .vms-image img { width: 100%; height: auto; border-radius: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease; }
+    .vms-image img:hover { transform: scale(1.03); }
+    .vms-content h3 { font-size: 2.5rem; color: #000000; margin-top: 0; margin-bottom: 20px; }
+    .vms-content p { font-size: 1.1rem; line-height: 1.7; color: #555; text-align: justify; }
+    
+    /* --- Footer Styles --- */
+    .custom-footer { background-color: #e0e0e0; color: #333; padding: 60px 5%; }
+    .footer-container { max-width: 1200px; margin: 0 auto; }
+    .footer-section { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px; }
+    .company-content, .important-links, .office-section { flex: 1 1 280px; }
+    .footer-logo-img { max-width: 180px; margin-top: -80px; height: auto; margin-left: -18px; }
+    .company-description { font-size: 1rem; margin: 20px 0; line-height: 1.6; color: #080108; margin-top: -55px; }
+    .know-more-btn { display: inline-block; padding: 10px 20px; background-color: #DA9100; color: #ffffff; border: 2px solid #DA9100; text-decoration: none; border-radius: 5px; transition: background-color 0.3s ease, color 0.3s ease; }
+    .know-more-btn:hover { background-color: #fff; color: #DA9100; }
+    .footer-section h3 { font-size: 1.4rem; color: #000; margin-top: 0; margin-bottom: 25px; position: relative; padding-bottom: 10px; }
+    .footer-section h3::after { content: ''; position: absolute; left: 0; bottom: 0; width: 50px; height: 2px; }
+    .important-links h3, .office-section h3 { font-size: 1.5rem; margin-bottom: 20px; color: #000000; }
+    .important-links ul { list-style: none; padding: 0; margin-top: -10px; }
+    .important-links ul li { margin-bottom: 12px; }
+    .important-links ul li a { text-decoration: none; color: #080108; transition: color 0.3s ease, padding-left 0.3s ease; }
+    .important-links ul li a:hover { color: #DA9100; padding-left: 5px; }
+    .office-details p { margin-top: -18px; font-size: 1rem; line-height: 1.7; color: #080108;}
+    .office-details p strong { color: #000000;}
+    .footer-bottom { text-align: center; padding-top: 40px; border-top: 1px solid #aaa; margin-top: 40px; font-size: 0.9rem; color: #080108; }
+    
+    /* === MOBILE RESPONSIVENESS === */
+    @media (max-width: 992px) {
+        .mobile-nav-toggle { display: block; }
+        .main-nav {
+            position: fixed; top: 0; right: -100%; 
+            width: 280px; max-width: 80%; height: 100vh;
+            background-color: #ffffff; z-index: 999;
+            padding-top: 100px; display: flex;
+            flex-direction: column;
+            transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            overflow-y: auto; 
+        }
+        .main-nav.active { right: 0; }
+        .main-nav ul { flex-direction: column; width: 100%; align-items: flex-start; }
+        .main-nav ul li { margin: 0; width: 100%; text-align: left; border-bottom: 1px solid #f0f0f0; }
+        .main-nav ul li a { padding: 18px 30px; width: 100%; }
+        .mega-menu {
+            position: static; display: none; width: 100%;
+            box-shadow: none; border: none; border-radius: 0;
+            background-color: #f9f9f9; padding: 0;
+            opacity: 1; visibility: visible; transform: none;
+            transition: none; border-top: 1px solid #e9e9e9;
+        }
+        .mega-menu.show { display: block; }
+        .mega-menu-content { flex-direction: column; gap: 0; }
+        .mega-menu-column { width: 100%; }
+        .mega-menu a { padding: 15px 45px; border-bottom: 1px solid #e9e9e9; }
+        .mega-menu a:last-child { border-bottom: none; }
+        
+        /* Mobile styles for MEP Submenu */
+        .mep-submenu {
+            padding-left: 0;
+            margin: 0;
+            background-color: #f0f0f0;
+            max-height: 0; /* Hidden by default for transition */
+            overflow: hidden;
+            display: block; /* Override desktop's 'none' */
+            transition: max-height 0.35s ease-in-out;
+        }
+        .mep-submenu.show {
+            max-height: 300px; /* Animate to this height */
+        }
+        .mep-submenu a {
+            padding: 12px 60px !important; /* Deeper indent for mobile */
+        }
+        .mep-toggle {
+            position: relative;
+        }
+        .mep-toggle::after { /* The '+' / '-' indicator on mobile */
+            content: '+';
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #888;
+            transition: transform 0.3s ease;
+        }
+        .mep-toggle.is-open::after {
+            content: '−'; /* This is a minus sign, not a hyphen */
+            transform: translateY(-50%) rotate(180deg);
+        }
+        
+        .company-section { padding: 60px 10%; }
+        .vms-item, .vms-item.reverse { flex-direction: column; text-align: center; }
+        .vms-content h3 { font-size: 2rem; }
+        .vms-content p { text-align: center; }
+    }
+
+    @media (max-width: 768px) {
+        .header-content { padding: 5px 15px; height: 80px; }
+        .logo img { max-height: 150px; width: auto; margin-top: 6px; margin-left: -10px; }
+        .mla-intro { height: 300px; margin-top: 80px; }
+        .intro-overlay h2 { font-size: 2.2rem; text-align: center; }
+        .company-section { padding: 40px 20px; }
+        .company-title { font-size: 1.8rem; }
+        .vms-section { padding: 60px 20px; }
+        .vms-item { gap: 30px; margin-bottom: 60px; }
+        .footer-section { flex-direction: column; text-align: center; gap: 40px; }
+        .company-content, .important-links, .office-section { flex-basis: auto; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .footer-section h3::after { left: 50%; transform: translateX(-50%); }
+        .footer-logo-img { margin: 0; }
+        .company-description { margin-top: -58px; }
+        .know-more-btn { margin: 0; }
+        .important-links ul { padding-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- === HEADER SECTION === -->
+<header class="header-content">
+    <div class="logo">
+        <img src="images/venus.png" alt="Venus EPC Logo">
+    </div>
+      
+    <nav class="main-nav" id="main-nav">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li class="has-dropdown">
+                <a href="#" class="dropdown-toggle" id="services-toggle">Services</a>
+                <div class="mega-menu" id="services-dropdown">
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-column">
+                            <!-- UPDATED MEP STRUCTURE -->
+                            <div class="mep-dropdown-container">
+                                <a  class="mep-toggle" id="mep-toggle"><i class="fas fa-wrench"></i><span>MEP Services</span></a>
+                                <div class="mep-submenu" id="mep-submenu">
+                                    <a href="mechanicalservices.html"><i class="fas fa-cogs"></i><span>Mechanical</span></a>
+                                    <a href="electricalservices.html"><i class="fas fa-bolt"></i><span>Electrical</span></a>
+                                    <a href="plumbingservices.html"><i class="fas fa-faucet"></i><span>Plumbing</span></a>
+                                </div>
+                            </div>
+                            <a href="interiorservices.html"><i class="fas fa-chair"></i><span>Interior Services</span></a> 
+                        </div>
+                        <div class="mega-menu-column">
+                            <a href="solarphotovoltaicservices.html"><i class="fas fa-solar-panel"></i><span>Solar PV Services</span></a>
+                            <a href="constructionservices.html"><i class="fas fa-hard-hat"></i><span>Civil EPC Work Services</span></a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Toggle navigation">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+</header>
+
+<div class="nav-overlay" id="nav-overlay"></div>
+
+<main>
+    <section class="mla-intro">
+      <div class="intro-overlay"><h2>About Us</h2></div>
+    </section>
+
+    <section class="company-section">
+      <h2 class="company-title">Venus EPC Pvt. Ltd.</h2>
+      <p class="inline-description">
+        At Venus EPC Pvt. Ltd., we offer a broad spectrum of specialized services designed to meet the diverse needs of modern infrastructure projects. Our core expertise spans Mechanical Services, Electrical Installations, Firefighting Systems, and Plumbing Solutions, ensuring the seamless integration of essential building systems. We also excel in Advanced Audio-Visual Solutions and Technology-Driven Installation Services, delivering smart, future-ready environments for commercial, institutional, and industrial spaces. With a focus on quality, innovation, and timely execution, Venus EPC provides single-point, end-to-end solutions that bring design visions to life while adhering to the highest safety and performance standards.
+      </p>
+    </section>
+    
+    <section class="vms-section">
+      <div class="vms-item">
+        <div class="vms-image"><img src="images/visionn.jpg" alt="A house with a sun icon, representing a bright future vision"></div>
+        <div class="vms-content">
+          <h3>Our Vision</h3>
+          <p>To contribute to the Nation Building, by delivering sustainable and environment-friendly projects with end-to-end engineering and construction solutions through quality workmanship and the use of cutting-edge technology.</p>
+        </div>
+      </div>
+      
+      <div class="vms-item reverse">
+        <div class="vms-image"><img src="images/mission.avif" alt="A target with an arrow in the center, symbolizing a clear mission"></div>
+        <div class="vms-content">
+          <h3>Our Mission</h3>
+          <p>To deliver excellence in infrastructure by integrating innovation, safety, and sustainability while empowering communities and creating long-term value for stakeholders through responsible construction practices.</p>
+        </div>
+      </div>
+
+      <div class="vms-item">
+        <div class="vms-image"><img src="images/value.jpg" alt="A lightbulb inside a hand, representing core values like integrity and innovation"></div>
+        <div class="vms-content">
+          <h3>Our Values</h3>
+          <p>Our values are built on integrity, innovation, and excellence. We are committed to delivering value through our dedication to quality, customer satisfaction, and fostering a sustainable future. We focus on teamwork, transparency, and accountability in all our endeavors.</p>
+        </div>
+      </div>
+    </section>
+</main>
+
+<footer class="custom-footer">
+  <div class="footer-container">
+    <section class="footer-section">
+      <div class="company-content">
+          <img src="images/venus.png" alt="Venus EPC Logo" class="footer-logo-img">
+        <p class="company-description">"Driven by Speed, Defined by Commitment."</p>
+        <a href="about.html" class="know-more-btn">Know More</a>
+      </div>
+      <div class="important-links">
+        <h3>Important Links</h3>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="office-section">
+          <h3>Office Details</h3>
+          <div class="office-details">
+            <p><strong>Address:</strong> OFFICE NO. 104, SR. NO. 235/1,NYATI EQUATORIAL - 2,DAFFODIL D4, BAVDHANBUDRUK PUNE 411021 .</p>
+            <p><strong>Phone:</strong> 02069015368</p>
+            <p><strong>Email:</strong> info@venusepc.com</p>
+          </div>
+        </div>
+    </section>
+    <div class="footer-bottom">
+      <p>© 2025 VENUS EPC Solutions Pvt Ltd. All Rights Reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+    const mainNav = document.getElementById('main-nav');
+    const navOverlay = document.getElementById('nav-overlay');
+    
+    const servicesToggle = document.getElementById('services-toggle');
+    const servicesDropdown = document.getElementById('services-dropdown');
+    
+    // NEW: MEP Submenu elements
+    const mepToggle = document.getElementById('mep-toggle');
+    const mepSubmenu = document.getElementById('mep-submenu');
+
+    function toggleMobileMenu() {
+        mobileNavToggle.classList.toggle('is-active');
+        mainNav.classList.toggle('active');
+        navOverlay.classList.toggle('active');
+        document.body.classList.toggle('nav-open');
+    }
+
+    mobileNavToggle.addEventListener('click', toggleMobileMenu);
+    navOverlay.addEventListener('click', toggleMobileMenu);
+
+    function isMobileView() {
+        return window.getComputedStyle(mobileNavToggle).display !== 'none';
+    }
+
+    // Main 'Services' dropdown toggle for mobile
+    servicesToggle.addEventListener('click', function(e) {
+        if (isMobileView()) {
+            e.preventDefault();
+            servicesDropdown.classList.toggle('show');
+        }
+    });
+
+    // NEW: MEP Submenu toggle for mobile
+    mepToggle.addEventListener('click', function(e) {
+        if (isMobileView()) {
+            e.preventDefault(); // Prevent navigating to mepservices.html on tap
+            mepSubmenu.classList.toggle('show');
+            mepToggle.classList.toggle('is-open'); // For the '+' -> '-' icon change
+        }
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Completed Projects</title>
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Header & Navigation */
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1px 10px;
+        position: fixed; /* Fixed header */
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #ffffff; /* Semi-transparent background */
+        backdrop-filter: blur(5px);
+        z-index: 1000;
+        box-sizing: border-box; /* Important for padding */
+    }
+
+    .logo img {
+        height: 50px; /* Adjust logo size */
+    }
+
+     .main-nav ul {
+        list-style: none;
+        margin-left: -18%; /* Centered, so no need for left margin */
+        padding: 0;
+        display: flex; /* Use flexbox for alignment */
+        justify-content: center; /* Center the nav items */
+        align-items: center;
+        gap: 2%;
+    }
+
+    .main-nav ul li {
+        position: relative;
+        margin: 0 10px; /* Use standard margin for spacing */
+    }
+
+     .main-nav ul li a {
+        display: block;
+        padding: 15px 20px;
+        color: #000;
+         font-weight: bold;
+        font-size: 100%;
+        font-family: inherit;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+    .main-nav ul li a:hover {
+        background-color: #eee;
+    }
+
+    .menu-toggle {
+        display: none; /* Hidden on desktop */
+        font-size: 24px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #333;
+    }
+
+
+    /* MEGA MENU STYLES - REFINED  */
+
+    .main-nav ul li.has-dropdown {
+      position: relative;
+    }
+
+    /* Main "Services" dropdown arrow */
+    .dropdown-toggle::after {
+      content: '\f078';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      margin-left: 8px;
+      font-size: 0.8em;
+    }
+
+    /* The main dropdown container */
+    .mega-menu {
+      display: none; /* Hide by default */
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: max-content; /* Let it size to its content */
+      max-width: 700px;
+      background-color: #fff;
+      padding: 25px 30px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border-radius: 8px;
+      border-top: 3px solid #007BFF;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      z-index: 1001;
+    }
+    
+    /* THIS IS THE KEY CHANGE: Show the menu when it has the 'show' class */
+    .mega-menu.show {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .mega-menu-content {
+      display: flex;
+      gap: 40px;
+    }
+
+    .mega-menu-column {
+      display: flex;
+      flex-direction: column;
+      gap: 5px; 
+    }
+
+    .mega-menu a {
+      display: flex;
+      align-items: center; 
+      padding: 12px 15px;
+      font-weight: normal;
+      border-radius: 5px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      white-space: nowrap;
+      color: #333; 
+      text-decoration: none; 
+      position: relative; /* Needed for the arrow */
+    }
+
+    .mega-menu a:hover {
+      background-color: #f0f8ff;
+      color: #007BFF;
+    }
+
+    .mega-menu a > i {
+      color: #007BFF;
+      font-size: 1.2em;
+      margin-right: 15px; 
+      min-width: 25px;
+      text-align: center;
+    }
+
+  
+    /*  REFINED MEP SERVICES SUB-MENU (SIDE MENU)  */
+  
+
+    /* The container for the MEP link and its sub-menu */
+    .mep-services-wrapper {
+        position: relative; /* This is crucial for positioning the sub-menu */
+    }
+
+    /* Add a right-arrow to the 'MEP SERVICES' link to indicate it has a sub-menu */
+    .mep-services-wrapper > a::after {
+        content: '\f054'; /* Font Awesome Right Arrow */
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 0.8em;
+        color: #aaa;
+        transition: color 0.2s ease;
+    }
+
+    /* Make the arrow more prominent on hover */
+    .mep-services-wrapper > a:hover::after {
+        color: #007BFF;
+    }
+
+    /* The sub-menu panel itself. Positioned absolutely to the side. */
+    .mep-submenu-container {
+        display: none; /* Hide by default */
+        position: absolute;
+        top: -10px; /* Align nicely with the parent */
+        left: 100%; /* Position it to the right of the parent column */
+        margin-left: 10px; /* Add a small gap */
+        
+        /* Styling to look like a floating panel */
+        width: max-content;
+        background-color: #ffffff;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+        border-radius: 8px;
+        padding: 10px;
+        z-index: 1002; /* Ensure it's on top of the mega-menu */
+    }
+
+    /* Show the sub-menu on hover of the wrapper */
+    .mep-services-wrapper:hover .mep-submenu-container {
+        display: block; /* Show it on hover */
+    }
+    
+    /* ===== Mobile Adjustments ===== */
+    @media (max-width: 992px) {
+      .mega-menu {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        border-top: none;
+        border-radius: 0;
+        background-color: #f9f9f9;
+        padding: 0;
+        transform: none;
+        opacity: 1; /* Make sure it's fully visible when shown */
+        visibility: visible; /* Make sure it's fully visible when shown */
+        transition: none;
+        display: none; /* Still hide by default */
+      }
+      
+      /* THIS RULE WILL NOW WORK on mobile, when JS adds the 'show' class */
+      .main-nav ul li .mega-menu.show {
+        display: block; 
+      }
+      
+      .mega-menu-content {
+        flex-direction: column;
+        gap: 0;
+      }
+      .mega-menu a {
+        padding: 15px 30px;
+        border-bottom: 1px solid #e9e9e9;
+      }
+      /* On mobile, sub-menu should be static */
+      .mep-submenu-container {
+        position: static;
+        display: block;
+        box-shadow: none;
+        padding: 0;
+        margin-left: 0;
+        background-color: #f0f0f0;
+      }
+      .mep-services-wrapper > a::after {
+        display: none; /* Hide side arrow on mobile */
+      }
+      .submenu-item-link {
+        padding-left: 45px !important; /* Indent sub-items */
+      }
+    }
+    
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+    }
+
+    .hero-section {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      background: url('https://t3.ftcdn.net/jpg/13/63/11/46/360_F_1363114618_o6bAtN6MszZk8aHet3pcsE5OXuhT6ew1.jpg') no-repeat center center/cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+      padding-top: 60px; /* To avoid being hidden by the fixed header */
+    }
+
+    .hero-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.5); /* Overlay */
+      z-index: 0;
+    }
+
+    .overlay-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .overlay-text h2 {
+      font-size: 36px;
+      margin-left: 0;
+    }
+
+    .overlay-text p {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    .projects {
+      text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 40px;
+      color: #333;
+    }
+
+    .flip-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 40px;
+      justify-content: center;
+    }
+
+    .flip-box {
+      width: 300px;
+      height: 350px;
+      perspective: 1000px;
+      margin: 0 auto; /* Center the boxes within the grid cell */
+    }
+
+    .flip-box-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.6s;
+    }
+
+    .flip-box:hover .flip-box-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-box-front,
+    .flip-box-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      flex-direction: column;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .flip-box-front {
+      background-color: #09063f;
+      color: white;
+    }
+
+    .flip-box-back {
+      background-color: #333;
+      color: white;
+      transform: rotateY(180deg);
+    }
+
+    .flip-box img {
+      max-width: 100%;
+      max-height: 150px;
+      object-fit: cover;
+    }
+
+    .flip-box h3 {
+      font-size: 24px;
+      margin-top: 10px;
+    }
+
+    .flip-box p {
+      padding: 20px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    @media screen and (max-width: 768px) {
+      .flip-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    footer {
+        background-color: #09063f; /* Dark navy blue */
+        color: #ecf0f1; /* Light gray/white text */
+        padding: 40px 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 14px;
+        margin-top: 10%;
+        width: 100%;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .footer-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 30px;
+      text-align: left;
+    }
+
+    .company-content,
+    .important-links,
+    .office-section {
+      flex: 1 1 300px; /* Allow items to grow and shrink, with a base width */
+    }
+
+    .company-logo {
+      width: 150px;
+      margin-bottom: 15px;
+    }
+
+    .company-description {
+      font-size: 16px;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .know-more-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #DA9100;
+      color: #ffffff;
+      border: 2px solid #f9f9f9;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .know-more-btn:hover {
+        background-color: #fff;
+        color: #055aaf;
+    }
+
+    .important-links h3, .office-section h3 {
+      font-size: 22px;
+      color: #fff;
+      margin-bottom: 15px;
+    }
+
+    .important-links ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .important-links ul li {
+      margin-bottom: 10px;
+    }
+
+    .important-links ul li a {
+      text-decoration: none;
+      color: #FFF;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+
+    .important-links ul li a:hover {
+      color: orangered;
+      text-decoration: underline;
+    }
+
+    .office-details p {
+      margin: 8px 0;
+      font-size: 16px;
+    }
+
+    .office-details strong { color: #fff; }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid #444;
+      margin-top: 30px;
+      font-size: 15px;
+      color: #ccc;
+    }
+
+  </style>
+</head>
+<body>
+    <header class="header-content">
+       <div class="logo">
+        <img src="images/venus.png" alt="Venus EPC Logo">
+       </div>
+        <nav class="main-nav" id="main-nav">
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li class="has-dropdown">
+                    <!-- The link that opens the dropdown -->
+                    <a href="#" class="dropdown-toggle" id="services-toggle">Services</a>
+                    <!-- The dropdown menu itself -->
+                    <div class="mega-menu" id="services-dropdown">
+                        <div class="mega-menu-content">
+                            <!-- Column 1 -->
+                            <div class="mega-menu-column">
+                                <!-- === MEP SERVICES WRAPPER === -->
+                                <div class="mep-services-wrapper">
+                                    <a>
+                                        <i class="fas fa-wrench"></i><span>MEP SERVICES</span>
+                                    </a>
+                                    <!-- This sub-menu will now appear on the side -->
+                                    <div class="mep-submenu-container">
+                                        <a href="mechanicalservices.html" class="submenu-item-link">
+                                            <i class="fas fa-cogs"></i><span>Mechanical</span>
+                                        </a>
+                                        <a href="electricalservices.html" class="submenu-item-link">
+                                            <i class="fas fa-bolt"></i><span>Electrical</span>
+                                        </a>
+                                        <a href="plumbingservices.html" class="submenu-item-link">
+                                            <i class="fas fa-faucet"></i><span>Plumbing</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <a href="interiorservices.html"><i class="fas fa-chair"></i><span>Interior Services</span></a>
+                            </div>
+                            <!-- Column 2 -->
+                            <div class="mega-menu-column">
+                                <a href="solarphotovoltaicservices.html"><i class="fas fa-solar-panel"></i><span>Solar PV Services</span></a>
+                                <a href="constructionservices.html"><i class="fas fa-hard-hat"></i><span>Civil EPC Work Services</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="careers.html">Careers</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <button class="menu-toggle" id="menu-toggle">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+    </header>
+
+    <section class="hero-section">
+        <div class="overlay-text">
+          <h2>Welcome to Our Projects Showcase</h2>
+          <p>Explore the best of our completed work below</p>
+        </div>
+    </section>
+
+    <section class="projects">
+        <h1>Completed Projects</h1>
+        <div class="flip-container">
+          <!-- Project 1 -->
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front">
+                <h3>Project 1</h3>
+              </div>
+              <div class="flip-box-back">
+                <p>Project 1 details go here. This could include the scope of work, client name, and project timeline.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Project 2 -->
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front">
+                <h3>Project 2</h3>
+              </div>
+              <div class="flip-box-back">
+                <p>Project 2 details go here. This could include the scope of work, client name, and project timeline.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Project 3 -->
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front">
+                <h3>Project 3</h3>
+              </div>
+              <div class="flip-box-back">
+                <p>Project 3 details go here. This could include the scope of work, client name, and project timeline.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="custom-footer">
+      <div class="footer-container">
+        <section class="footer-section">
+           <!-- Company Info -->
+           <div class="company-content">
+              <img src="images/venus.png" alt="Venus EPC Logo" class="company-logo" style="height: 98px; width: 160px;">
+              <p class="company-description">
+                  "Driven by Speed, Defined by Commitment."
+              </p>
+              <a href="index.html" class="know-more-btn">Know More</a>
+            </div>
+          <!-- Important Links -->
+          <div class="important-links">
+            <h3>Important Links</h3>
+            <ul>
+              <li><a href="/home">Home</a></li>
+              <li><a href="/about">About Us</a></li>
+              <li><a href="/projects">Projects</a></li>
+              <li><a href="/careers">Careers</a></li>
+              <li><a href="/contact">Contact</a></li>
+            </ul>
+          </div>
+          <!-- Office Details -->
+          <div class="office-section">
+            <h3>Office Details</h3>
+            <div class="office-details">
+              <p><strong>Address:</strong> OFFICE NO. 104, SR. NO. 235/1, NYATI EQUATORIAL - 2, DAFFODIL D4, BAVDHAN BUDRUK PUNE 411021.</p>
+              <p><strong>Phone:</strong> 02069015368</p>
+              <p><strong>Email:</strong> info@venusepc.com</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Bottom Copyright -->
+        <div class="footer-bottom">
+          <p>© 2025 VENUS EPC Solutions Pvt Ltd. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ========================================================== -->
+    <!--         ** NEW JAVASCRIPT FOR DROPDOWN MENU **             -->
+    <!-- ========================================================== -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const servicesToggle = document.getElementById('services-toggle');
+      const servicesDropdown = document.getElementById('services-dropdown');
+
+      // Check if the elements exist before adding event listeners
+      if (servicesToggle && servicesDropdown) {
+        servicesToggle.addEventListener('click', function(event) {
+          // Prevent the link from navigating to '#'
+          event.preventDefault(); 
+          // Toggle the 'show' class on the dropdown menu
+          servicesDropdown.classList.toggle('show');
+        });
+      }
+
+      // Optional: Close the dropdown if the user clicks outside of it
+      window.addEventListener('click', function(event) {
+        // Check if the click was outside the dropdown and its toggle button
+        if (servicesDropdown.classList.contains('show') && !servicesToggle.contains(event.target) && !servicesDropdown.contains(event.target)) {
+          servicesDropdown.classList.remove('show');
+        }
+      });
+      
+      // --- Mobile Menu Toggle Logic (Add this if you have a hamburger menu) ---
+      const menuToggle = document.getElementById('menu-toggle');
+      const mainNav = document.getElementById('main-nav');
+
+      if (menuToggle && mainNav) {
+          menuToggle.addEventListener('click', function() {
+              mainNav.classList.toggle('active'); // You would need to add CSS for .main-nav.active
+          });
+      }
+    });
+    </script>
+</body>
+</html>

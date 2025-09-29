@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Venus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+       /* --- General Styles --- */
+    body, html {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+        overflow-x: hidden;
+    }
+    
+    *, *:before, *:after {
+        box-sizing: border-box;
+    }
+
+    /* --- Header and Navigation --- */
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 20px;
+        background-color: #ffffff;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        position: fixed;
+        width: 100%;
+        height: 90px;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .logo img {
+        height: 193px; 
+        width: auto; 
+    }
+
+    .main-nav {
+        flex-grow: 1;
+    }
+
+    .main-nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        font-style: bold;
+        justify-content: flex-end;
+    }
+
+    .main-nav ul li {
+        position: relative;
+        margin: 0 10px;
+    }
+
+    .main-nav ul li a {
+        display: block;
+        padding: 15px 20px;
+        color: #000000;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 100%;
+        font-family: inherit;
+        font-style: bold;
+        text-transform: uppercase;
+        transition: color 0.3s;
+        white-space: nowrap; 
+    }
+
+    .main-nav ul li a:hover {
+        color: #3498db;
+    }
+
+    .menu-toggle {
+        display: none;
+        font-size: 24px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #333;
+        z-index: 1001;
+        padding: 10px;
+    }
+    
+    .menu-toggle .bar {
+        display: block;
+        width: 25px;
+        height: 3px;
+        margin: 5px auto;
+        background-color: #333;
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* Services Dropdown sathi CSS */
+    .dropdown-toggle::after {
+        content: '\f078'; /* Font Awesome down arrow */
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        margin-left: 8px;
+        font-size: 0.8em;
+    }
+
+    .mega-menu {
+        display: none; 
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: max-content;
+        background-color: #fff;
+        padding: 25px 20px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        border-top: 3px solid #007BFF;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 1001;
+    }
+
+    @media (min-width: 993px) {
+        .has-dropdown:hover .mega-menu {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    .mega-menu.show {
+        display: block; 
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .mega-menu-content {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .mega-menu-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mega-menu a {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        font-weight: normal; 
+        text-transform: none;
+        letter-spacing: normal;
+        border-radius: 5px;
+        transition: background-color 0.2s ease, color 0.2s ease;
+        white-space: nowrap;
+        color: #333; 
+        text-decoration: none; 
+    }
+
+    .mega-menu a:hover {
+        background-color: #f0f8ff;
+        color: #007BFF;
+    }
+
+    .mega-menu a i {
+        color: #007BFF;
+        font-size: 1.1em;
+        margin-right: 12px;
+        width: 20px;
+        text-align: center;
+    }
+        
+   
+    
+    .mep-toggle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%; /* Ensure it takes full width of the column */
+    }
+
+    .sub-menu-indicator {
+        font-size: 0.8em;
+        margin-left: 10px;
+        transition: transform 0.3s ease;
+    }
+    
+
+    .sub-menu {
+        display: none; /* Hidden by default */
+        padding-left: 20px; /* Indent the sub-menu items */
+        background-color: #f9f9f9; /* Slight background to differentiate */
+        border-radius: 0 0 5px 5px; /* Optional: round bottom corners */
+        margin-top: 5px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    
+    .sub-menu a {
+        padding: 10px 15px; /* Adjust padding for sub-items */
+        font-size: 95%;
+    }
+
+    /* Desktop hover to show sub-menu */
+    @media (min-width: 993px) {
+        .has-sub-dropdown:hover .sub-menu {
+            display: block;
+        }
+    }
+    
+    /* --- Hero Section --- */
+    .contact-hero {
+        height: 50vh; 
+        background: linear-gradient(45deg, rgba(85%, 57%, 0%), transparent),
+                    url('images/usss.jpeg') no-repeat center center;
+        background-size: cover;
+        display: flex;
+        align-items: flex-end; 
+        justify-content: center;
+        text-align: center;
+        color: #0c042a;
+        padding-top: 80px;
+        padding-bottom: 7rem; 
+    }
+
+    .hero-content h1 {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+    }
+        
+    /* --- Contact Content Section --- */
+    .contact-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        max-width: 1200px;
+        margin: -80px auto 4rem;
+        padding: 0 2rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    .contact-info, .contact-form {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-card {
+        display: flex;
+        align-items: center;
+        margin-bottom: 2rem;
+        transition: transform 0.3s ease;
+    }
+        
+    .contact-card:hover { transform: translateX(10px); }
+    .contact-icon {
+        flex-shrink: 0;
+        width: 50px; height: 50px;
+        background: #2c3e50;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1.5rem;
+        color: white;
+        font-size: 1.2rem;
+    }
+    .contact-details h3 { margin: 0; color: #2c3e50; }
+    .contact-details p { margin: 0.5rem 0 0; color: #666; }
+
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; color: #2c3e50; font-weight: 500; }
+    .form-group input, .form-group textarea, .form-group select {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        transition: border-color 0.3s ease;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+        border-color: #3498db;
+        outline: none;
+    }
+    .form-group textarea { height: 150px; resize: vertical; }
+
+    .submit-btn {
+        background: #2c3e50; color: white;
+        padding: 1rem 2rem; border: none; border-radius: 8px;
+        cursor: pointer; width: 100%; font-size: 1.1rem;
+        transition: background 0.3s ease;
+    }
+    .submit-btn:hover { background: #34495e; }
+
+    .social-links {
+        display: flex; justify-content: center; gap: 1rem; margin-top: 2rem;
+    }
+    .social-link {
+        width: 40px; height: 40px; background: #2c3e50; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        color: white; text-decoration: none; transition: transform 0.3s, background-color 0.3s;
+    }
+    .social-link:hover { transform: translateY(-5px); background-color: #3498db; }
+
+    /* --- Map and Office Section --- */
+    .map-section {
+        padding: 4rem 2rem;
+        background: #f8f9fa;
+    }
+    .map-section h2 { text-align: center; font-size: 2.5rem; color: #2c3e50; margin-bottom: 3rem; }
+    
+    .office-locations {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 3rem;
+    }
+    .office-card {
+        background: white; padding: 2rem; border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s ease;
+        max-width: 350px;
+    }
+    .office-card:hover { transform: translateY(-10px); }
+    .office-icon {
+        width: 60px; height: 60px; background: #2c3e50;
+        border-radius: 50%; display: flex; align-items: center;
+        justify-content: center; margin: 0 auto 1rem;
+        color: white; font-size: 1.5rem;
+    }
+    .office-card h3 { color: #2c3e50; margin: 0 0 1rem; }
+    .office-card p { color: #666; margin: 0; }
+
+    .map-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        border-radius: 15px; overflow: hidden;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    .map-container iframe { width: 100%; height: 450px; border: 0; }
+
+    /* --- Footer --- */
+    footer.custom-footer {
+        background-color: #e0e0e0;
+        color: #333;
+        padding: 4rem 2rem;
+        text-align: left;
+    }
+    .footer-container { max-width: 1200px; margin: 0 auto; }
+    .footer-section {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 2rem;
+    }
+    .company-content, .important-links, .office-section {
+        flex: 1 1 300px;
+    }
+    
+    .footer-logo {
+        width: 180px;
+        height: auto;
+        display: block;
+        margin-top: -45px; 
+        margin-left: 15px;
+    }
+    
+    .company-description { font-size: 1rem; margin-bottom: 15px; margin-left: 35px; line-height: 1.6; color: #080108; margin-top: -48px;}
+    .know-more-btn {
+        display: inline-block; padding: 10px 20px; background-color: #DA9100;  margin-left: 40px; 
+        color: #ffffff; border: 2px solid #f9f9f9; text-decoration: none; border-radius: 5px; transition: background-color 0.3s, color 0.3s;;
+    }
+
+    .know-more-btn:hover {
+        background-color: #fff;
+        color: #055aaf;
+    }
+
+    .important-links h3, .office-section h3 { font-size: 1.5rem; margin-bottom: 1.5rem; color: #000000;}
+    .important-links ul { list-style: none; padding: 0; }
+    .important-links ul li { margin-bottom: 10px; margin-left: 60px; }
+    .important-links ul li a { text-decoration: none; color: #080108; transition: color 0.3s; }
+    .important-links ul li a:hover { color: orangered; }
+
+    .office-details p { margin: 8px 0; font-size: 1rem; line-height: 1.6; color: #080108; }
+    .office-details p strong { font-weight: 600; color: #000000;}
+    
+    .footer-bottom {
+        text-align: center; padding-top: 2rem;
+        border-top: 1px solid rgb(4, 0, 0);
+        margin-top: 2rem; font-size: 0.9rem; color: #080108;
+    }
+        
+    /* Nav Overlay for Mobile */
+    .nav-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 998;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    body.nav-open .nav-overlay {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* --- RESPONSIVE MEDIA QUERIES --- */
+    
+    @media (max-width: 992px) {
+        .menu-toggle { display: block; }
+
+        .menu-toggle.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
+        .menu-toggle.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+        .main-nav {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 280px;
+            height: 100vh;
+            background-color: #ffffff;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            transition: right 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding-top: 85px;
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .main-nav.nav-active { right: 0; }
+        
+        .main-nav ul {
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .main-nav ul li {
+            width: 100%;
+            margin: 0;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+            
+        .main-nav ul li a { padding: 18px 25px; }
+        .main-nav ul li:last-child { border-bottom: none; }
+
+        .mega-menu {
+            position: static;
+            width: 100%;
+            box-shadow: none;
+            border-top: none;
+            border-radius: 0;
+            background-color: #f9f9f9;  
+            padding: 0;
+            transform: none;
+            margin-left: 0;
+            opacity: 1;
+            visibility: visible;
+            display: none;
+            transition: none;
+        }
+        .mega-menu.show { display: block; }
+        .mega-menu-content { flex-direction: column; gap: 0; }
+        .mega-menu a { padding: 15px 25px; border-bottom: 1px solid #e9e9e9; }
+        .mega-menu-column a:last-child { border-bottom: none; }
+        .mega-menu-column .has-sub-dropdown a:last-of-type { border-bottom: none; } /* Fix border */
+        
+        /*Mobile sub-menu styles */
+        .sub-menu {
+            display: none; /* Hide by default on mobile */
+            padding-left: 0;
+            margin-top: 0;
+            background-color: #eaf5ff; /* Lighter blue for mobile */
+        }
+        .sub-menu.show {
+            display: block; /* Show when toggled by JS */
+        }
+        .sub-menu a {
+            padding-left: 40px; /* Indent mobile sub-items */
+            border-bottom: 1px solid #dcebf7;
+        }
+        .has-sub-dropdown.open .sub-menu-indicator {
+            transform: rotate(180deg); /* Rotate arrow down */
+        }
+
+        .contact-container { grid-template-columns: 1fr; }
+    }
+        
+    @media (max-width: 768px) {
+        .header-content {
+            padding: 5px 15px;
+            height: 80px;
+        }
+        .logo img {
+            height: 150px; 
+            margin-left: -12px;
+        }
+            
+        .contact-hero { height: 40vh; padding-top: 70px; }
+        .hero-content h1 { font-size: 2.2rem; }
+        .hero-content .hero-text { font-size: 1rem; }
+        .contact-container { margin-top: -60px; padding: 0 1rem; gap: 1.5rem; }
+        .contact-info, .contact-form { padding: 1.5rem; }
+        .map-section { padding: 3rem 1rem; }
+        .map-section h2 { font-size: 2rem; }
+            
+        footer.custom-footer { padding: 3rem 1rem; }
+        .footer-section { flex-direction: column; align-items: center; text-align: center; }
+            
+        .footer-logo {
+            width: 150px; 
+            margin: 0 auto 15px; 
+        }
+        .company-description {
+            margin-top: -55px; 
+        }
+        .know-more-btn {
+            margin: 0; 
+        }
+        .important-links ul { 
+            padding: 0; 
+            text-align: center; 
+        }
+        .important-links ul li {
+            margin-left: 0; 
+        }
+        .office-details { 
+            text-align: center; 
+        }
+    }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="images/venus.png" alt="Venus EPC Logo">
+        </div>
+        <button class="menu-toggle" id="menu-toggle" aria-label="toggle navigation">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <nav class="main-nav" id="main-nav">
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li class="has-dropdown">
+                    <a href="#" class="dropdown-toggle" id="services-toggle">Services</a>
+                    <div class="mega-menu" id="services-dropdown">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <!-- ===MEP Services with Sub-dropdown that opens below === -->
+                                <div class="has-sub-dropdown">
+                                    <a href="mepservices.html" class="mep-toggle">
+                                        <i class="fas fa-wrench"></i>
+                                        <span>MEP SERVICES</span>
+                                        <!-- Changed to down arrow -->
+                                        <i class="fas fa-chevron-down sub-menu-indicator"></i>
+                                    </a>
+                                    <div class="sub-menu">
+                                        <a href="mechanicalservices.html"><i class="fas fa-cogs"></i><span>Mechanical</span></a>
+                                        <a href="electricalservices.html"><i class="fas fa-bolt"></i><span>Electrical</span></a>
+                                        <a href="plumbingservices.html"><i class="fas fa-faucet"></i><span>Plumbing</span></a>
+                                    </div>
+                                </div>
+                                <!-- === End of changed code === -->
+                                <a href="interiorservices.html"><i class="fas fa-chair"></i><span>Interior Services</span></a>
+                            </div>
+                            <div class="mega-menu-column">
+                                <a href="solarphotovoltaicservices.html"><i class="fas fa-solar-panel"></i><span>Solar PV SREVICES</span></a>
+                                <a href="constructionservices.html"><i class="fas fa-hard-hat"></i><span>Civil EPC Work Services</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="careers.html">Careers</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="nav-overlay" id="nav-overlay"></div>
+
+    <main>
+        <section class="contact-hero">
+            <div class="hero-content">
+                <h1>Get in Touch</h1>
+                <p class="hero-text">Let's Build Something Amazing Together</p>
+            </div>
+        </section>
+
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2>Contact Information</h2>
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="contact-details">
+                        <h3>Address</h3>
+                        <p>OFFICE NO. 104, SR. NO. 235/1,NYATI EQUATORIAL - 2,DAFFODIL D4, BAVDHANBUDRUK PUNE 411021 .</p>
+                    </div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                    <div class="contact-details">
+                        <h3>Phone</h3>
+                        <p>+91 02069015368</p>
+                    </div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                    <div class="contact-details">
+                        <h3>Email</h3>
+                        <p>info@venusepc.com</p>
+                    </div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                    <div class="contact-details">
+                        <h3>Working Hours</h3>
+                        <p>Monday - Friday: 10:00 AM - 6:30 PM</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <h2>Send us a Message</h2>
+                 <form id="contactForm" action="https://getform.io/f/bejlomva" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="_replyto" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Select a subject</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="project">Project Discussion</option>
+                            <option value="partnership">Partnership</option>
+                            <option value="support">Support</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                    <p id="form-status" style="text-align: center; margin-top: 15px;"></p>
+                </form>
+            </div>
+        </div>
+
+        <section class="map-section">
+            <h2>Our Office Location</h2>
+            <div class="office-locations">
+                <div class="office-card">
+                    <div class="office-icon"><i class="fas fa-building"></i></div>
+                    <h3>Pune Office</h3>
+                    <p>OFFICE NO. 104, SR. NO. 235/1,NYATI EQUATORIAL - 2,DAFFODIL D4, BAVDHANBUDRUK PUNE 411021 .</p>
+                </div>
+            </div>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d242117.6811124239!2d73.7228784478235!3d18.52456485542714!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bf2e67461101%3A0x828d43bf9d9ee343!2sPune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1678886365418!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="custom-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <div class="company-content">
+                     <img src="images/venus.png" alt="Venus EPC Logo" class="footer-logo">
+                    <p class="company-description">
+                         "Driven by Speed, Defined by Commitment."
+                    </p>
+                    <a href="index.html" class="know-more-btn">Know More</a>
+                </div>
+                <div class="important-links">
+                    <h3>Important Links</h3>
+                    <ul>
+                        <li><a href="/home">Home</a></li>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/projects">Projects</a></li>
+                        <li><a href="/careers">Careers</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="office-section">
+                    <h3>Office Details</h3>
+                    <div class="office-details">
+                        <p><strong>Address:</strong> OFFICE NO. 104, SR. NO. 235/1,NYATI EQUATORIAL - 2,DAFFODIL D4, BAVDHANBUDRUK PUNE 411021 .</p>
+                        <p><strong>Phone:</strong> 02069015368</p>
+                        <p><strong>Email:</strong> info@venusepc.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 VENUS EPC Solutions Pvt Ltd. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- === JavaScript === -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- Responsive Navigation Scripts ---
+            const menuToggle = document.getElementById('menu-toggle');
+            const mainNav = document.getElementById('main-nav');
+            const navOverlay = document.getElementById('nav-overlay');
+            const servicesToggle = document.getElementById('services-toggle');
+            const servicesDropdown = document.getElementById('services-dropdown');
+
+            function closeMenu() {
+                document.body.classList.remove('nav-open');
+                menuToggle.classList.remove('active');
+                mainNav.classList.remove('nav-active');
+            }
+
+            function openMenu() {
+                document.body.classList.add('nav-open');
+                menuToggle.classList.add('active');
+                mainNav.classList.add('nav-active');
+            }
+
+            if (menuToggle && mainNav && navOverlay) {
+                menuToggle.addEventListener('click', () => {
+                    const isNavOpen = document.body.classList.contains('nav-open');
+                    if (isNavOpen) {
+                        closeMenu();
+                    } else {
+                        openMenu();
+                    }
+                });
+
+                navOverlay.addEventListener('click', closeMenu);
+            }
+
+            if (servicesToggle && servicesDropdown) {
+                servicesToggle.addEventListener('click', (e) => {
+                    // Only activate dropdown behavior on mobile
+                    if (window.innerWidth <= 992) {
+                        e.preventDefault(); 
+                        servicesDropdown.classList.toggle('show');
+                    }
+                });
+            }
+
+            // Sub-menu toggle (works on both mobile and desktop click)//
+            const mepItem = document.querySelector('.has-sub-dropdown');
+            if (mepItem) {
+                const mepToggleLink = mepItem.querySelector('.mep-toggle');
+                const mepSubMenu = mepItem.querySelector('.sub-menu');
+
+                mepToggleLink.addEventListener('click', (e) => {
+                    // This now handles the click on mobile view
+                    if (window.innerWidth <= 992) {
+                        e.preventDefault(); // Prevent navigating away
+                        const isSubMenuOpen = mepSubMenu.classList.contains('show');
+                        
+                        // Hide any other open sub-menus first
+                        document.querySelectorAll('.sub-menu.show').forEach(menu => {
+                            if (menu !== mepSubMenu) {
+                                menu.classList.remove('show');
+                                menu.closest('.has-sub-dropdown').classList.remove('open');
+                            }
+                        });
+
+                        // Then toggle the current one
+                        mepSubMenu.classList.toggle('show');
+                        mepItem.classList.toggle('open', !isSubMenuOpen);
+                    }
+                    // On desktop, the link (mepservices.html) will work as usual
+                });
+            }
+
+            // --- AJAX Form Submission Script ---
+            const form = document.getElementById('contactForm');
+            if (form) {
+                const status = document.getElementById('form-status');
+                
+                async function handleSubmit(event) {
+                    event.preventDefault();
+                    const formData = new FormData(event.target);
+                    status.style.color = '#2c3e50';
+                    status.innerHTML = "Sending...";
+                    try {
+                        const response = await fetch(event.target.action, {
+                            method: form.method,
+                            body: formData,
+                            headers: { 'Accept': 'application/json' }
+                        });
+                        if (response.ok) {
+                            status.style.color = 'green';
+                            status.innerHTML = "Message sent successfully!";
+                            form.reset();
+                        } else {
+                            const data = await response.json();
+                            if (Object.hasOwn(data, 'errors')) {
+                                status.innerHTML = data["errors"].map(error => error["message"]).join(", ");
+                            } else {
+                                status.innerHTML = "Oops! There was a problem submitting your form.";
+                            }
+                            status.style.color = 'red';
+                        }
+                    } catch (error) {
+                        status.style.color = 'red';
+                        status.innerHTML = "Oops! There was a network problem. Please try again.";
+                    }
+                }
+                form.addEventListener("submit", handleSubmit);
+            }
+        });
+    </script>
+</body>
+</html>

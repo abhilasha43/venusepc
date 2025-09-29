@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VENUS - Responsive</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<style>
+  
+    /* --- General & Base Styles --- */
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff;
+        font-family: Arial, sans-serif;
+        overflow-x: hidden;
+    }
+    
+    body.nav-open {
+        overflow: hidden;
+    }
+
+    /*      HERO SECTION & SLIDESHOW STYLES   */
+
+    .hero-section {
+        position: relative; 
+        height: 100vh;      
+        color: #fff;
+        overflow: hidden;   
+    }
+
+    #background-slideshow {
+        position: absolute;  
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;       
+        z-index: 0;         
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    #background-slideshow .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0;
+        transform: scale(1.1) translateX(50%);
+        transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 1.2s ease-in-out;
+    }
+
+    #background-slideshow .slide.active {
+        opacity: 1;
+        transform: scale(1) translateX(0);
+    }
+
+    #background-slideshow .slide.slide-out {
+        transform: translateX(-50%);
+        opacity: 0;
+    }
+
+    /* --- Header & Navigation --- */
+       .header-content {
+        display: flex;
+        justify-content: space-between; 
+        align-items: center;
+        padding: 5px 15px;
+        background-color: #ffffff;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        position: fixed;
+        width: 100%;
+        height: 90px;
+        top: 0;
+        z-index: 1000;
+        box-sizing: border-box;
+    }
+
+    .logo img {
+        max-height: 200px;
+        width: auto;
+        object-fit: contain;
+    }
+
+    .main-nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .main-nav ul li {
+        position: relative;
+        margin: 0 10px;
+    }
+
+     .main-nav ul li a {
+        display: block;
+        padding: 15px 20px;
+        color: #000;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1rem;
+        font-family: inherit;
+        text-transform: uppercase;
+        transition: color 0.3s;
+        white-space: nowrap;
+    }
+
+    .main-nav ul li a:hover {
+        color: #007BFF;
+    }
+
+    .menu-toggle {
+        display: none;
+        font-size: 24px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #333;
+        z-index: 1002;
+    }
+
+    /*          ** MEGA MENU STYLES - REFINED **                */
+
+    .main-nav ul li.has-dropdown {
+      position: relative;
+    }
+
+    .dropdown-toggle::after {
+      content: '\f078'; /* Font Awesome down-arrow */
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      margin-left: 8px;
+      font-size: 0.8em;
+      transition: transform 0.3s ease;
+    }
+
+    .mega-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: max-content;
+      max-width: 700px;
+      background-color: #fff;
+      padding: 25px 30px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border-radius: 8px;
+      border-top: 3px solid #007BFF;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      z-index: 1001;
+    }  
+    
+    .mega-menu-content {
+      display: flex;
+      gap: 40px;
+    }
+
+    .mega-menu-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 5px; 
+    }
+
+    .mega-menu a {
+      display: flex;
+      align-items: center; 
+      padding: 12px 15px;
+      font-weight: normal;
+      border-radius: 5px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      white-space: nowrap;
+      color: #333; 
+      text-decoration: none; 
+      text-transform: none; 
+      line-height: 1.5;
+    }
+
+    .mega-menu a:hover {
+      background-color: #f0f8ff;
+      color: #007BFF;
+    }
+
+    .mega-menu a > i {
+      color: #007BFF;
+      font-size: 1.2em;
+      margin-right: 15px; 
+      min-width: 25px;
+      text-align: center;
+    }
+
+    /* ===== START: NESTED DROPDOWN STYLES ===== */
+    .mep-services-wrapper {
+        position: relative;
+    }
+
+    /* Desktop & Mobile Arrow for MEP Services */
+    a.mep-services-toggle::after {
+        content: '\f078';
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        margin-left: 8px;
+        font-size: 0.8em;
+        transition: transform 0.3s ease;
+    }
+    
+    .mep-submenu-container {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-out;
+    }
+    
+    /* Desktop Hover Behavior */
+    .mep-services-wrapper:hover .mep-submenu-container {
+        max-height: 200px;
+    }
+    .mep-services-wrapper:hover a.mep-services-toggle::after {
+        transform: rotate(180deg);
+    }
+
+    .submenu-item-link {
+        padding-left: 45px !important; 
+        font-size: 0.95em !important;
+    }
+    
+    .submenu-item-link i {
+        font-size: 1em !important;
+        color: #007BFF !important;
+    }
+    
+    .submenu-item-link:hover {
+        background-color: #f0f8ff;
+        color: #007BFF !important;
+    }
+    .submenu-item-link:hover i {
+        color: #007BFF !important;
+    }
+    
+    @media (min-width: 993px) {
+      .has-dropdown:hover .mega-menu {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    .mega-menu.show {
+      display: block; 
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* --- Hero Text (.overlay) --- */
+    .overlay { height: 100%; width: 100%; display: flex; justify-content: flex-start; align-items: center; padding: 0 10%; box-sizing: border-box; color: #080101; position: relative; z-index: 1; background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 60%); }
+    .inline-text { display: flex; flex-direction: column; align-items: flex-start; text-align: left; max-width: 650px; }
+    .inline-text h1, .inline-text h2, .inline-text p { margin: 0; padding: 0; text-shadow: 1px 1px 8px rgba(0,0,0,0.6); opacity: 0; animation: fadeInUp 0.8s ease-out forwards; }
+    .inline-text h1 { font-size: 3.8rem; font-weight: 700; color: orangered; line-height: 1.1; }
+    .inline-text h2 { font-size: 3.8rem; font-weight: 700; color: #ffffff; line-height: 1.2; margin-bottom: 25px; animation-delay: 0.2s; position: relative; }
+    .inline-text h2::after { content: ''; display: block; width: 100px; height: 4px; background: orangered; margin-top: 25px; border-radius: 2px; opacity: 0; animation: expandWidth 0.8s ease-out 0.6s forwards; }
+    .inline-text p { font-size: 1.3rem; color: #ffffff; line-height: 1.6; max-width: 550px; animation-delay: 0.4s; }
+    .company-section { background-color: #ffffff; padding: 80px 5%; color: #333; }
+    .company-title { font-size: 2.2rem; font-weight: bold; text-align: center; margin-bottom: 20px; color: #222; }
+    .inline-description { font-size: 1.1rem; text-align: justify; line-height: 1.7; max-width: 1000px; margin: 0 auto; }
+    .services-heading { font-size: 2.4rem; font-weight: 700; text-align: center; margin: 60px auto 40px; color: #333333; text-transform: uppercase; border-bottom: 4px solid #ff9900; padding-bottom: 10px; max-width: 300px; }
+    .fusion-flex-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 100px; padding: 20px; }
+    .service-box { flex: 1 1 300px; max-width: 350px; min-height: 450px; position: relative; background-size: cover; background-position: center; color: white; border-radius: 10px; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; opacity: 0; transform: translateY(40px); display: flex; flex-direction: column; }
+    .service-box.show { opacity: 1; transform: translateY(0); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+    .service-box:nth-child(1).show { transition-delay: 0.1s; } .service-box:nth-child(2).show { transition-delay: 0.2s; } .service-box:nth-child(3).show { transition-delay: 0.3s; } .service-box:nth-child(4).show { transition-delay: 0.4s; } .service-box:nth-child(5).show { transition-delay: 0.5s; } .service-box:nth-child(6).show { transition-delay: 0.6s; }
+    .fusion-column-wrapper { background-color: rgba(0, 0, 0, 0.4); padding: 25px; flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-end; box-sizing: border-box; transition: background-color 0.3s ease; }
+    .service-box:hover .fusion-column-wrapper { background: rgba(0, 0, 0, 0.7); }
+    .service-box:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+    .service-title { margin: 0 0 10px; font-size: 1.5rem; color: #ffffff; }
+    .description { font-size: 1rem; margin-bottom: 20px; color: #f0f0f0; line-height: 1.5; flex-grow: 1; }
+    .know-more-btn { display: inline-block; padding: 8px 15px; background-color: #DA9100; color: #ffffff; border: 2px solid #f9f9f9; text-decoration: none; border-radius: 4px; align-self: flex-start; transition: background-color 0.3s, color 0.3s; }
+    .know-more-btn:hover { background-color: #fff; color: #DA9100; }
+    .industries, .achievements, .map-section, .custom-footer { padding: 60px 5%; }
+    .industries h2, .achievements h2, .map-title { text-align: center; font-size: 2.5rem; color: #333; margin-bottom: 40px; }
+    .service-icons { display: flex; flex-wrap: wrap; justify-content: center; gap: 80px; max-width: 1200px; margin: 0 auto; }
+    .service { background-color: #313058; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); padding: 30px 20px; flex: 1 1 150px; max-width: 200px; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .service i { font-size: 2.5rem; color: #ffffff; margin-bottom: 15px; }
+    .service p { font-size: 1.1rem; font-weight: 600; color: #ffffff; margin: 0; }
+    .service:hover { transform: translateY(-10px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); }
+    .achievement-carousel { position: relative; width: 100%; max-width: 900px; margin: auto; height: 450px; overflow: hidden; border-radius: 10px; }
+    .achievement-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease-in-out; display: none; }
+    .achievement-slide.active { display: block; opacity: 1; }
+    .achievement-slide img { width: 100%; height: 100%; object-fit: cover; }
+    .achievement-description { padding: 20px; text-align: left; background-color: rgba(54, 50, 50, 0.6); color: white; position: absolute; bottom: 20px; left: 20px; right: 20px; max-width: 50%; border-radius: 5px; }
+    .map-container { max-width: 900px; margin: 0 auto; }
+    .map-subtitle { font-size: 1.1rem; color: #666; max-width: 700px; margin: 0 auto 40px auto; line-height: 1.6; }
+    .map-image-wrapper img { max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); }
+    .custom-footer { background-color: #e0e0e0; color: #333; }
+    .footer-container { max-width: 1200px; margin: 0 auto; }
+    .footer-section { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px; text-align: left; }
+    .company-content, .important-links, .office-section { flex: 1 1 280px; }
+    .company-content .logo-footer { max-width: 180px; height: auto; object-fit: contain; margin-top: -49px; margin-left: -15px; }
+    .company-description { font-size: 1rem; margin-top: -55px; line-height: 1.6; color: #080101; }
+    .important-links h3, .office-section h3 { font-size: 1.5rem; margin-bottom: 20px; color: #000000; }
+    .important-links ul { list-style: none; padding: 0; }
+    .important-links ul li { margin-bottom: 10px; }
+    .important-links ul li a { text-decoration: none; color: #080101; transition: color 0.3s ease; }
+    .important-links ul li a:hover { color: orangered; }
+    .office-details p { margin: 8px 0; font-size: 1rem; line-height: 1.6; color: #080808; }
+    .office-details strong { font-weight: 600; color: #000000; }
+    .footer-bottom { text-align: center; padding-top: 40px; border-top: 1px solid #aaa; margin-top: 40px;    font-size: 1rem; color: #080101; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes expandWidth { from { width: 0; } to { width: 100px; opacity: 1; } }
+
+/* --- RESPONSIVE & MOBILE STYLES --- */
+@media (max-width: 992px) {
+    .header-content { padding: 5px 15px; height: 80px; }
+    .logo img { max-height: 150px; width: auto; margin-top: 6px; margin-left: -10px; }
+    .menu-toggle { display: block; }
+    .nav-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 998; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+    body.nav-open .nav-overlay { opacity: 1; visibility: visible; }
+    .main-nav { position: fixed; top: 0; right: -300px; width: 280px; height: 100vh; background-color: #ffffff; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: right 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94); padding-top: 100px; z-index: 999; overflow-y: auto; }
+    .main-nav.nav-active { right: 0; }
+    .main-nav ul { flex-direction: column; align-items: flex-start; width: 100%; }
+    .main-nav ul li { width: 100%; margin: 0; text-align: left; }
+    .main-nav ul li a { font-size: 1.1rem; padding: 15px 25px; border-bottom: 1px solid #f0f0f0; width: 100%; box-sizing: border-box; position: relative; }
+    .main-nav ul li a:hover { background-color: #f5f5f5; }
+    .mega-menu { position: static; width: 100%; margin-left: -15px;     box-shadow: none; border-top: none; border-radius: 0; background-color: #f9f9f9; padding: 0; transform: none; opacity: 1; visibility: visible; transition: none; display: none; }
+    .main-nav ul li .mega-menu.show { display: block; }
+    .mega-menu-content { flex-direction: column; gap: 0; }
+    .mega-menu a { padding: 15px 40px; border-bottom: 1px solid #e9e9e9; }
+    
+    /* --- Mobile Dropdown Arrows --- */
+    .dropdown-toggle::after,
+    a.mep-services-toggle::after {
+        position: absolute;  
+        right: 25px;
+        top: 50%;
+        transform: translateY(-50%);
+        margin-left: 0;
+        font-size: 0.9em;
+        color: #333;
+    }
+
+    /* Rotate arrow when open */
+    .dropdown-toggle.is-open::after,
+    a.mep-services-toggle.is-open::after {
+        transform: translateY(-50%) rotate(180deg);
+    }
+    
+    .mep-submenu-container {
+        background-color: #f0f0f0; 
+    } 
+    .mep-submenu-container.show {
+        max-height: 200px; /* Adjust if more items are needed */
+    }
+    
+    .overlay { justify-content: center; text-align: center; padding: 0 5%; background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 70%); }
+    .inline-text { align-items: center; max-width: 90%; }
+    .inline-text h1 { font-size: 3.8rem; margin-left: -65px; font-weight: 700; color: orangered; line-height: 1.1; }
+    .inline-text h2 { font-size: 2.8rem; white-space: normal; text-align: left; margin-left: 1px; }
+    .inline-text p { font-size: 1.1rem; }
+    .inline-text h2::after { margin-left: 5px; }
+    .company-title { font-size: 1.8rem; }
+    .inline-description { font-size: 1rem; }
+    .services-heading { font-size: 1.8rem; max-width: 80%; }
+    .achievement-carousel { height: 350px; }
+    .achievement-description { max-width: 85%; bottom: 10px; left: 10px; right: 10px; padding: 15px; }
+    .map-title, .industries h2, .achievements h2 { font-size: 2rem; }
+    .map-subtitle { font-size: 1rem; }
+    .footer-section { flex-direction: column; text-align: center; align-items: center; }
+    .company-content, .important-links, .office-section { flex-basis: auto; text-align: center; }
+    .company-content .logo-footer { margin-left: auto; margin-right: auto; }
+    .important-links ul { display: inline-block; text-align: left; }
+}
+@media (max-width: 480px) {
+    .header-content { padding: 0 15px; }
+    .inline-text h1, .inline-text h2 { font-size: 2.2rem; }
+    .inline-text p { font-size: 1rem; }
+    .service-icons { gap: 20px; }
+    .service { flex-basis: calc(50% - 10px); }
+    .achievement-carousel { height: 300px; }
+}
+</style>
+
+<header class="header-content">
+   <div class="logo">
+    <img src="images/venus.png" alt="Venus EPC Logo">
+    </div>
+    <nav class="main-nav" id="main-nav">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+             <li class="has-dropdown">
+                <a href="#" class="dropdown-toggle" id="services-toggle">Services</a>
+                <div class="mega-menu" id="services-dropdown">
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-column">
+                            
+                            <div class="mep-services-wrapper">
+                                <!-- MEP link with a specific ID -->
+                                <a href="#" class="mep-services-toggle" id="mep-toggle">
+                                    <i class="fas fa-wrench"></i>
+                                    <span>MEP Services</span>
+                                </a>
+                                <!-- MEP submenu with a specific ID -->
+                                <div class="mep-submenu-container" id="mep-submenu">
+                                     <a href="mechanicalservices.html" class="submenu-item-link">
+                                        <i class="fas fa-cogs"></i><span>Mechanical</span>
+                                    </a>
+                                    <a href="electricalservices.html" class="submenu-item-link">
+                                        <i class="fas fa-bolt"></i><span>Electrical</span>
+                                    </a>
+                                    <a href="plumbingservices.html" class="submenu-item-link">
+                                        <i class="fas fa-faucet"></i><span>Plumbing</span>
+                                    </a>
+                                </div>
+                            </div>
+                           <a href="interiorservices.html"><i class="fas fa-chair"></i><span>Interior Services</span></a>
+                        </div>
+                        <div class="mega-menu-column">
+                            <a href="solarphotovoltaicservices.html"><i class="fas fa-solar-panel"></i><span>Solar PV Services</span></a>
+                            <a href="constructionservices.html"><i class="fas fa-hard-hat"></i><span>Civil EPC Work Services</span></a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+    <button class="menu-toggle" id="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+</header>
+<div class="nav-overlay" id="nav-overlay"></div>
+
+<!-- Body remains the same -->
+<section class="hero-section">
+    <div id="background-slideshow">
+        <div class="slide" style="background-image: url('images/india.jpg');"></div>
+        <div class="slide" style="background-image: url('images/court.jpg');"></div>
+        <div class="slide" style="background-image: url('images/fort.jpg');"></div>
+        <div class="slide" style="background-image: url('images/bhavan.jpg');"></div>
+        <div class="slide" style="background-image: url('images/yss.JPG');"></div>
+    </div>
+    <div class="overlay">
+        <div class="inline-text">
+            <h1>Driven by Speed,</h1>
+            <h2>Defined by Commitment</h2>
+            <p>Venus EPC Pvt. Ltd. delivers end-to-end EPC solutions that combine technical excellence, innovative thinking and a commitment to quality across every project.</p>
+        </div>
+    </div>
+</section>
+
+<div class="company-section">
+  <h2 class="company-title">Venus EPC Pvt. Ltd.</h2>
+  <p class="inline-description">
+    At Venus EPC, the customer is the central focus of all our ventures. We put an earnest effort in understanding the aspirations of our valued customers with the objective of meeting all their expectations. We believe there is no joy greater than delivering customer happiness and satisfaction. Venus Group combines the dual ethos of integrity and aesthetics in EPC landmarks. With customer at the core of all its endeavors, every project under the Venus brand is conceptualized keeping in mind the aspirations of our users. With footprints into sectors like EPC, Hospitality and Solar the group aims to deliver inspiring milestones in every field it ventures as it explores newer horizons of growth.
+  </p>
+</div>
+
+<h1 class="services-heading">Our Services</h1>
+<div class="fusion-flex-container services-section">
+  <div class="fusion-flex-column service-box" style="background-image: url(images/mepp.webp);">
+    <div class="fusion-column-wrapper">
+      <h3 class="service-title">MEP Services</h3>
+      <p class="description">We specialize in delivering high-performance mechanical systems tailored to your project's unique needs — from conceptual design to final implementation.</p>
+      <a href="mepservices.html" class="know-more-btn">Know More</a>
+    </div>
+  </div>
+  <div class="fusion-flex-column service-box" style="background-image: url('images/spv.jpg');">
+    <div class="fusion-column-wrapper">
+      <h3 class="service-title">Solar PV Services</h3>
+      <p class="description">We provide expert Solar PV solutions tailored to maximize energy efficiency, from rooftop installations to large-scale solar farms.</p>
+      <a href="solarphotovoltaicservices.html" class="know-more-btn">Know More</a>
+    </div>
+  </div>
+   <div class="fusion-flex-column service-box" style="background-image: url('images/interior.jpeg');">
+    <div class="fusion-column-wrapper">
+      <h3 class="service-title">Interior Services</h3>
+      <p class="description">Transform your space with our expert interior solutions, offering everything from custom design and manufacturing to professional assembly.</p>
+      <a href="interiorservices.html" class="know-more-btn">Know More</a>
+    </div>
+  </div>
+   <div class="fusion-flex-column service-box" style="background-image: url('images/construction.jpg');">
+    <div class="fusion-column-wrapper">
+      <h3 class="service-title">Civil EPC Work Services</h3>
+      <p class="description">Build with confidence with our comprehensive construction services. We deliver high-quality solutions for residential, commercial, and industrial projects.</p>
+      <a href="constructionservices.html" class="know-more-btn">Know More</a>
+    </div>
+  </div>
+</div>
+
+<section class="industries">
+    <h2>Industries We Work For</h2>
+    <div class="service-icons">
+        <div class="service"><i class="fas fa-building"></i><p>Residential</p></div>
+        <div class="service"><i class="fas fa-hospital"></i><p>Healthcare</p></div>
+        <div class="service"><i class="fas fa-home"></i><p>Villas</p></div>
+        <div class="service"><i class="fas fa-landmark"></i><p>Temples</p></div>
+        <div class="service"><i class="fas fa-hotel"></i><p>Hospitality</p></div>
+        <div class="service"><i class="fas fa-industry"></i><p>Industrial</p></div>
+    </div>
+</section> 
+
+<section class="achievements">
+    <h2>Our Achievements</h2>
+    <div class="achievement-carousel">
+        <div class="achievement-slide active">
+            <img src="images/pf.jpeg" alt="Achievement 2">
+            <div class="achievement-description">
+                <h3>Significant Growth in 2023</h3>
+                <p>Our company achieved a major milestone, marking a huge step towards our expansion and growth in the EPC sector.</p>
+            </div>
+        </div>
+        <div class="achievement-slide">
+            <img src="images/pwd.jpeg" alt="Achievement 2">
+            <div class="achievement-description">
+                <h3>Best Industry Innovator Award</h3>
+                <p>We were recognized as the most innovative company in the industry for our forward-thinking engineering solutions.</p>
+            </div>  
+        </div>
+        <div class="achievement-slide">
+            <img src="images/highcourt.webp" alt="Achievement 3">
+            <div class="achievement-description">
+                <h3>Expanded International Partnerships</h3>
+                <p>In 2024, our team made incredible strides by forging new partnerships with leading international firms.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="map-section">
+    <div class="map-container">
+        <h2 class="map-title">Where We Operate</h2>
+        <p class="map-subtitle">Our operational presence spans across key regions, delivering excellence everywhere.</p>
+        <div class="map-image-wrapper">
+            <img src="images/map.jpg" alt="Map of Venus EPC operational areas">
+        </div>
+    </div>
+</section>
+
+<footer class="custom-footer">
+    <div class="footer-container">
+      <section class="footer-section">
+         <div class="company-content">
+            <img src="images/venus.png" alt="Venus EPC Logo" class="logo-footer">
+            <p class="company-description">
+              "Driven by Speed, Defined by Commitment."
+            </p>
+            <a href="index.html" class="know-more-btn">Know More</a>
+          </div>
+        <div class="important-links">
+          <h3>Important Links</h3>
+          <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="office-section">
+          <h3>Office Details</h3>
+          <div class="office-details">
+            <p><strong>Address:</strong> OFFICE NO. 104, SR. NO. 235/1,NYATI EQUATORIAL - 2,DAFFODIL D4, BAVDHANBUDRUK PUNE 411021 .</p>
+            <p><strong>Phone:</strong>02069015368</p>
+            <p><strong>Email:</strong> info@venusepc.com</p>
+          </div>
+        </div>
+      </section>
+      <div class="footer-bottom">
+        <p>© 2025 VENUS EPC Solutions Pvt Ltd. All Rights Reserved.</p>
+      </div>
+    </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- General variables ---
+    const menuToggle = document.getElementById('menu-toggle');
+    const mainNav = document.getElementById('main-nav');
+    const navOverlay = document.getElementById('nav-overlay');
+    
+    // Function to check if we are in mobile view
+    function isMobileView() {
+        return window.getComputedStyle(menuToggle).display !== 'none';
+    }
+    
+    // --- Mobile Navigation (Hamburger Menu) ---
+    function toggleMobileNav() {
+        mainNav.classList.toggle('nav-active');
+        document.body.classList.toggle('nav-open');
+        const icon = menuToggle.querySelector('i');
+        if (mainNav.classList.contains('nav-active')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+        } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+    }
+
+    menuToggle.addEventListener('click', toggleMobileNav);
+    navOverlay.addEventListener('click', toggleMobileNav);
+
+    // Close nav when a main link (that is not a dropdown toggle) is clicked
+    const navLinks = mainNav.querySelectorAll('a:not(.dropdown-toggle):not(.mep-services-toggle)');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (mainNav.classList.contains('nav-active')) {
+                toggleMobileNav();
+            }
+        });
+    });
+
+    // --- Main 'Services' Dropdown Toggle (for mobile) ---
+    const servicesToggle = document.getElementById('services-toggle');
+    const servicesDropdown = document.getElementById('services-dropdown');
+
+    servicesToggle.addEventListener('click', (event) => {
+      if (isMobileView()) {
+          event.preventDefault(); 
+          servicesDropdown.classList.toggle('show');
+          servicesToggle.classList.toggle('is-open');
+      }
+    });
+    
+  
+    // FINAL & CORRECTED: MEP Submenu toggle with ARROW
+
+    const mepToggle = document.getElementById('mep-toggle');
+    const mepSubmenu = document.getElementById('mep-submenu');
+
+    mepToggle.addEventListener('click', function(event) {
+        if (isMobileView()) {
+            event.preventDefault();
+            event.stopPropagation(); // Prevents the main 'Services' toggle from firing
+
+            mepSubmenu.classList.toggle('show');
+            mepToggle.classList.toggle('is-open'); // Toggles the arrow rotation
+        }
+    });
+
+    // --- All other functionalities (slideshows, animations) ---
+    const slides = document.querySelectorAll('#background-slideshow .slide');
+    if (slides.length > 0) {
+      let currentSlide = 0;
+      slides[0].classList.add('active');
+      setInterval(() => {
+        const outgoingSlide = slides[currentSlide];
+        currentSlide = (currentSlide + 1) % slides.length;
+        const incomingSlide = slides[currentSlide];
+        outgoingSlide.classList.add('slide-out');
+        incomingSlide.classList.add('active');
+        setTimeout(() => {
+          outgoingSlide.classList.remove('active', 'slide-out');
+        }, 1200);
+      }, 5000);
+    }
+
+    const serviceBoxes = document.querySelectorAll('.service-box');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    serviceBoxes.forEach(box => observer.observe(box));
+
+    const achievementSlides = document.querySelectorAll('.achievement-slide');
+    if(achievementSlides.length > 0) {
+        let currentAchievementSlide = 0;
+        setInterval(() => {
+            achievementSlides[currentAchievementSlide].classList.remove('active');
+            currentAchievementSlide = (currentAchievementSlide + 1) % achievementSlides.length;
+            achievementSlides[currentAchievementSlide].classList.add('active');
+        }, 3500);
+    }
+});
+</script>
+
+</body>
+</html>
